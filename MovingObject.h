@@ -17,6 +17,5 @@ public:
     void setCoordinates(QPointF);
     QPointF getCoordinates();
 
-    void move();
     void move(double , QPointF);
 };

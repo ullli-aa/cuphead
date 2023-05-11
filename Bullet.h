@@ -11,8 +11,10 @@ protected:
 public:
     Bullet();
     QPointF getAttackBegin();
-    void setAttackBegin(QPointF&);
+    void setAttackBegin(QPointF);
     QPointF getAttackEnd();
-    void setAttackEnd(QPointF&);
+    void setAttackEnd(QPointF);
     QLineF trajectory(QPointF&, QPointF&);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    QRectF boundingRect() const;
 };

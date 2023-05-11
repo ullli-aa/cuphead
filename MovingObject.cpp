@@ -17,20 +17,18 @@ void MovingObject::setSpeed(double speed) {
 
 void MovingObject::setCoordinates(QPointF newCoordinates) {
     coordinates_ = newCoordinates;
+    setPos(newCoordinates);
 }
 
 QPointF MovingObject::getCoordinates() {
     return coordinates_;
 }
 
-void MovingObject::move() {
-    move(speed_, coordinates_);
-}
-
 void MovingObject::move(double speed, QPointF direction) {
-    double lengthX = coordinates_.x() - direction.x();
-    double lengthY = coordinates_.y() - direction.y();
+//    double lengthX = direction.x() - coordinates_.x() ;
+//    double lengthY = direction.y() - coordinates_.y();
 
-    setCoordinates({coordinates_.x() + speed * lengthX, coordinates_.y() + speed * lengthY});
+    setCoordinates(
+            {coordinates_.x() + speed * direction.x(), coordinates_.y() + speed * direction.y()});
 }
 

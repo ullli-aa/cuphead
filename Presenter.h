@@ -1,11 +1,17 @@
 #pragma once
 
 #include <QWidget>
-class Presenter : public QWidget{
+#include "Model.h"
+
+class Presenter : public QWidget {
 Q_OBJECT
 public:
     Presenter(QWidget* parent);
-    void Tick();
+//    void Tick();
+    void setModelHero(Hero*);
+    Model getModel();
 
+private:
+    Model model;
 };
 

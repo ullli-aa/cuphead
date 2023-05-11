@@ -6,6 +6,10 @@ int Creatures::getHealth() const {
     return health_;
 }
 
+void Creatures::setHealth(int health) {
+    health_ = health;
+}
+
 bool Creatures::death() {
     if (isAlive()) {
         return false;
