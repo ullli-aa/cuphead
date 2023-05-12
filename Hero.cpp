@@ -2,7 +2,7 @@
 #include <QPainter>
 
 Hero::Hero() : Creatures(5), points_(0){
-    speed_ = 10;
+    speed_ = 7;
     coordinates_ = QPointF{90, 350};
     setPos(coordinates_);
 }

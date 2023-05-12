@@ -9,7 +9,7 @@ public:
     Hero* hero_;
     std::vector<Bullet*> heroBullet;
 
-    void updateModel(Bullet*);
+    void updateModel();
     void changeHeroBullet(int);
     void deleteHeroBullet();
 };
