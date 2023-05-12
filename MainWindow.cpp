@@ -76,13 +76,20 @@ void MainWindow::timerEvent(QTimerEvent *event) {
             presenter->getModel().heroBullet[attack]->setCoordinates(presenter->getModel().hero_->getCoordinates());
             presenter->getModel().heroBullet[attack]->setDirection({20, 0});
 
-            attack++;
-            if (attack == 20) {
-                attack = 0;
+            if (attack == 0) {
+                attack = 20;
             }
+            --attack;
             timerChange = 0;
         }
         repaint();
     }
+
+    if (presenter->getModel().heroBullet[attack]->x() > 1918) {
+        scene_->removeItem(presenter->getModel().heroBullet[attack]);
+        presenter->getModel().updateHeroBullet();
+        scene_->addItem(presenter->getModel().heroBullet[attack]);
+    }
+
     presenter->getModel().updateModel();
 }

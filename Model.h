@@ -10,6 +10,7 @@ public:
     std::vector<Bullet*> heroBullet;
 
     void updateModel();
-    void changeHeroBullet(int);
-    void deleteHeroBullet();
+    void updateHeroBullet();
+    void addHeroBullet(int pos);
+    void deleteHeroBullet(int pos);
 };

@@ -31,13 +31,11 @@ private:
     QGraphicsScene *scene_;
     QGraphicsView *view_;
 
-//    QWidget* bckgrnd_;
-
     Presenter *presenter;
 
     QSet<int> pressedKeys;
 
-    int attack = 0;
+    int attack = 19;
     QBasicTimer animation_timer_;
     int timerChange = 0;
 };
