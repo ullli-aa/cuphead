@@ -10,6 +10,7 @@
 #include <QImage>
 #include "Presenter.h"
 #include <QMouseEvent>
+#include <QBasicTimer>
 
 class MainWindow : public QMainWindow {
 Q_OBJECT;
@@ -22,8 +23,8 @@ public:
 
     void keyPressEvent(QKeyEvent *event) override;
 
-//    void keyReleaseEvent(QKeyEvent *event) override;
-//    void timerEvent(QTimerEvent* event);
+    void keyReleaseEvent(QKeyEvent *event) override;
+    void timerEvent(QTimerEvent* event);
 private:
     Presenter widget_;
 
@@ -37,6 +38,8 @@ private:
     QSet<int> pressedKeys;
 
     int attack = 0;
+    QBasicTimer animation_timer_;
+    int timerChange = 0;
 };
 
 

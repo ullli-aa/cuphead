@@ -24,10 +24,16 @@ QPointF MovingObject::getCoordinates() {
     return coordinates_;
 }
 
-void MovingObject::move(double speed, QPointF direction) {
-//    double lengthX = direction.x() - coordinates_.x() ;
-//    double lengthY = direction.y() - coordinates_.y();
+void MovingObject::setDirection(QPointF direction) {
+    direction_ = direction;
+}
 
+QPointF MovingObject::getDirection() {
+    return direction_;
+}
+
+void MovingObject::move(double speed, QPointF direction) {
+    setDirection(direction);
     setCoordinates(
             {coordinates_.x() + speed * direction.x(), coordinates_.y() + speed * direction.y()});
 }

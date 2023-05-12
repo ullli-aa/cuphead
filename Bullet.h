@@ -14,7 +14,7 @@ public:
     void setAttackBegin(QPointF);
     QPointF getAttackEnd();
     void setAttackEnd(QPointF);
-    QLineF trajectory(QPointF&, QPointF&);
+    QLineF trajectory(QPointF, QPointF);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     QRectF boundingRect() const;
 };

@@ -21,7 +21,7 @@ void Bullet::setAttackEnd(QPointF end) {
     attackEnd_ = end;
 }
 
-QLineF Bullet::trajectory(QPointF& begin, QPointF& end) {
+QLineF Bullet::trajectory(QPointF begin, QPointF end) {
     return QLineF(begin, end);
 }
 
