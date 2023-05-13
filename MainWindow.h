@@ -35,7 +35,7 @@ private:
 
     QSet<int> pressedKeys;
 
-    int attack = 19;
+    int attack = 9;
     QBasicTimer animation_timer_;
     int timerChange = 0;
 };

@@ -14,7 +14,7 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(game_spaceBattle main.cpp MainWindow.cpp MovingObject.cpp Presenter.cpp Creatures.cpp Bullet.cpp Hero.cpp Model.cpp)
+add_executable(game_spaceBattle main.cpp MainWindow.cpp MovingObject.cpp Presenter.cpp Creatures.cpp Bullet.cpp Hero.cpp Model.cpp Boss.cpp)
 target_link_libraries(game_spaceBattle
         Qt5::Core
         Qt5::Gui

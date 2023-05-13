@@ -13,8 +13,6 @@ public:
 
     void setPoints(int);
 
-    void setHealth(int) override;
-
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) override;
 
     QRectF boundingRect() const override;

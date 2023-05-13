@@ -2,7 +2,7 @@
 #include <QDebug>
 
 Model::Model() : hero_(new Hero) {
-    for (int i = 0; i < 20; ++i) {
+    for (int i = 0; i < 10; ++i) {
         heroBullet.push_back(new Bullet);
         heroBullet[i]->setCoordinates({0, 0});
     }
@@ -11,7 +11,7 @@ Model::Model() : hero_(new Hero) {
 void Model::updateModel() {
     for (auto & bull : heroBullet) {
         if (bull->getDirection().x() != 0) {
-            bull->move(2, bull->getDirection());
+            bull->move(1.2, bull->getDirection());
             bull->setAttackBegin(bull->getCoordinates());
             bull->setAttackEnd({bull->getCoordinates().x() + 10, bull->getCoordinates().y() + 10});
         }

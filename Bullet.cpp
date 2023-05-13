@@ -31,5 +31,5 @@ void Bullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 }
 
 QRectF Bullet::boundingRect() const {
-    return QRectF(-2, -2, 4, 4);
+    return QRectF(-25, -2, 50, 4);
 }

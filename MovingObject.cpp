@@ -33,7 +33,6 @@ QPointF MovingObject::getDirection() {
 }
 
 void MovingObject::move(double speed, QPointF direction) {
-    setDirection(direction);
     setCoordinates(
             {coordinates_.x() + speed * direction.x(), coordinates_.y() + speed * direction.y()});
 }

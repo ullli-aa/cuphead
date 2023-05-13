@@ -1,9 +1,6 @@
 #include "MainWindow.h"
-#include <QStyleOptionGraphicsItem>
 #include <iostream>
 #include <QDebug>
-#include <QShortcut>
-#include "QAction"
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent),
@@ -12,20 +9,19 @@ MainWindow::MainWindow(QWidget *parent)
           view_(new QGraphicsView(this)),
           presenter(new Presenter(this)) {
     resize(maximumWidth(), maximumHeight());
-    scene_->setSceneRect(1, 1, 1919, 1079);
+    scene_->setSceneRect(1, 1, 1918, 1078);
     view_->setFixedSize(1920, 1080);
     view_->setScene(scene_);
     setUpScene();
-    view_->setMouseTracking(true);
     setFocusPolicy(Qt::StrongFocus);
     view_->viewport()->installEventFilter(this);
     this->installEventFilter(this);
-    animation_timer_.start(50, this);
+    animation_timer_.start(16, this);
 }
 
 void MainWindow::setUpScene() {
     scene_->addItem(presenter->getModel().hero_);
-    for (int i = 0; i < 20; ++i) {
+    for (int i = 0; i < 10; ++i) {
         scene_->addItem(presenter->getModel().heroBullet[i]);
     }
 
@@ -72,12 +68,12 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 void MainWindow::timerEvent(QTimerEvent *event) {
     if (event->timerId() == animation_timer_.timerId()) {
         ++timerChange;
-        if (timerChange % 5 == 0) {
-            presenter->getModel().heroBullet[attack]->setCoordinates(presenter->getModel().hero_->getCoordinates());
-            presenter->getModel().heroBullet[attack]->setDirection({20, 0});
+        if (timerChange % 10 == 0) {
+            presenter->getModel().heroBullet[attack]->setCoordinates({presenter->getModel().hero_->getCoordinates().x() + 70, presenter->getModel().hero_->getCoordinates().y()});
+            presenter->getModel().heroBullet[attack]->setDirection({30, 0});
 
             if (attack == 0) {
-                attack = 20;
+                attack = 10;
             }
             --attack;
             timerChange = 0;
@@ -90,6 +86,5 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         presenter->getModel().updateHeroBullet();
         scene_->addItem(presenter->getModel().heroBullet[attack]);
     }
-
     presenter->getModel().updateModel();
 }
