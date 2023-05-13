@@ -15,8 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     setUpScene();
     setFocusPolicy(Qt::StrongFocus);
     view_->viewport()->installEventFilter(this);
-    this->installEventFilter(this);
-    animation_timer_.start(16, this);
+    animation_timer_.start(20, this);
 }
 
 void MainWindow::setUpScene() {
@@ -24,7 +23,7 @@ void MainWindow::setUpScene() {
     for (int i = 0; i < 10; ++i) {
         scene_->addItem(presenter->getModel().heroBullet[i]);
     }
-
+    scene_->addItem(presenter->getModel().boss_);
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
@@ -67,24 +66,45 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 
 void MainWindow::timerEvent(QTimerEvent *event) {
     if (event->timerId() == animation_timer_.timerId()) {
-        ++timerChange;
-        if (timerChange % 10 == 0) {
-            presenter->getModel().heroBullet[attack]->setCoordinates({presenter->getModel().hero_->getCoordinates().x() + 70, presenter->getModel().hero_->getCoordinates().y()});
-            presenter->getModel().heroBullet[attack]->setDirection({30, 0});
+        if (timerChange % 8 == 0) {
+            presenter->getModel().heroBullet[attack]->setCoordinates(
+                    {presenter->getModel().hero_->getCoordinates().x() + 70,
+                     presenter->getModel().hero_->getCoordinates().y()});
+            presenter->getModel().heroBullet[attack]->setDirection({40, 0});
 
             if (attack == 0) {
                 attack = 10;
             }
             --attack;
+        }
+
+        if (timerChange == 200) {
             timerChange = 0;
         }
-        repaint();
+
+        if (timerChange / 25 == 0 || timerChange / 25 == 7) {
+            presenter->getModel().boss_->setDirection({1, -1.5});
+        } else if (timerChange / 25 == 1 || timerChange / 25 == 6) {
+            presenter->getModel().boss_->setDirection({-1, -1.5});
+        } else if (timerChange / 25 == 2 || timerChange / 25 == 5) {
+            presenter->getModel().boss_->setDirection({-1, 1.5});
+        } else {
+            presenter->getModel().boss_->setDirection({1, 1.5});
+        }
+        ++timerChange;
     }
 
-    if (presenter->getModel().heroBullet[attack]->x() > 1918) {
-        scene_->removeItem(presenter->getModel().heroBullet[attack]);
-        presenter->getModel().updateHeroBullet();
-        scene_->addItem(presenter->getModel().heroBullet[attack]);
+    for (int i = 0; i < presenter->getModel().heroBullet.size(); ++i) {
+        if (presenter->getModel().heroBullet[i]->x() > 1918.0) {
+            scene_->removeItem(presenter->getModel().heroBullet[i]);
+            presenter->getModel().updateHeroBullet(i);
+            scene_->addItem(presenter->getModel().heroBullet[i]);
+        }
+        if (presenter->getModel().heroBullet[i]->collidesWithItem(presenter->getModel().boss_)) {
+            scene_->removeItem(presenter->getModel().heroBullet[i]);
+            presenter->getModel().updateHeroBullet(i);
+            scene_->addItem(presenter->getModel().heroBullet[i]);
+        }
     }
     presenter->getModel().updateModel();
 }
