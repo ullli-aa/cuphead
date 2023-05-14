@@ -1,6 +1,6 @@
 #include "MainWindow.h"
-#include <iostream>
 #include <QDebug>
+#include <cmath>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent),
@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     setUpScene();
     setFocusPolicy(Qt::StrongFocus);
     view_->viewport()->installEventFilter(this);
-    animation_timer_.start(20, this);
+    animation_timer_.start(25, this);
 }
 
 void MainWindow::setUpScene() {
@@ -30,6 +30,9 @@ void MainWindow::setUpScene() {
         scene_->addItem(presenter->getModel().enemies_[i]);
     }
 
+    scene_->addItem(presenter->getModel().firstEnemyBullet);
+    scene_->addItem(presenter->getModel().secondEnemyBullet);
+
     heroHp = scene_->addText(QString::number(presenter->getModel().hero_->getHp()));
     heroHp->setDefaultTextColor(QColor(Qt::darkRed));
     heroHp->setFont(QFont("Courier New", 20));
@@ -42,12 +45,12 @@ void MainWindow::setUpScene() {
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
-    if (obj == view_->viewport()) {
-        if (event->type() == QEvent::MouseMove) {
-            auto *mouseEvent = dynamic_cast<QMouseEvent *>(event);
-            presenter->getModel().hero_->setCoordinates(mouseEvent->pos());
-        }
-    }
+//    if (obj == view_->viewport()) {
+//        if (event->type() == QEvent::MouseMove) {
+//            auto *mouseEvent = dynamic_cast<QMouseEvent *>(event);
+//            presenter->getModel().hero_->setCoordinates(mouseEvent->pos());
+//        }
+//    }
     return false;
 }
 
@@ -102,7 +105,8 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     bossMoving();
     firstEnemyMoving();
     secondEnemyMoving();
-    collidesHeroBullet();
+    bulletFirstEnemyMoving();
+    bulletSecondEnemyMoving();
 
     if (timerChange % 10 < 5) {
         presenter->getModel().bossBullet->setDirection({-8, -2});
@@ -110,7 +114,19 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         presenter->getModel().bossBullet->setDirection({-8, 2});
     }
 
+    collidesHeroBullet();
     collidesBossBullet();
+    collidesFirstEnemyBullet();
+    collidesSecondEnemyBullet();
+
+    heroHp->setPlainText(QString::number(presenter->getModel().hero_->getHp()));
+
+    presenter->getModel().hero_->setHealth(presenter->getModel().hero_->getHp() / 60 + 1);
+    if (presenter->getModel().hero_->getHp() == 0) {
+        presenter->getModel().hero_->setHealth(0);
+    }
+    heroHealth->setPlainText(QString::number(presenter->getModel().hero_->getHealth()));
+
     presenter->getModel().updateModel();
 }
 
@@ -124,13 +140,6 @@ void MainWindow::collidesBossBullet() {
 
     if (presenter->getModel().bossBullet->collidesWithItem(presenter->getModel().hero_)) {
         presenter->getModel().hero_->setHp(presenter->getModel().hero_->getHp() - 20);
-        heroHp->setPlainText(QString::number(presenter->getModel().hero_->getHp()));
-
-        presenter->getModel().hero_->setHealth(presenter->getModel().hero_->getHp() / 60 + 1);
-        if (presenter->getModel().hero_->getHp() == 0) {
-            presenter->getModel().hero_->setHealth(0);
-        }
-        heroHealth->setPlainText(QString::number(presenter->getModel().hero_->getHealth()));
 
         scene_->removeItem(presenter->getModel().bossBullet);
         presenter->getModel().bossBullet->setCoordinates({presenter->getModel().boss_->getCoordinates().x() - 250,
@@ -152,8 +161,15 @@ void MainWindow::collidesHeroBullet() {
             presenter->getModel().updateHeroBullet(i);
             scene_->addItem(presenter->getModel().heroBullet[i]);
         }
+        if (presenter->getModel().heroBullet[i]->collidesWithItem(presenter->getModel().firstEnemyBullet)) {
+            presenter->getModel().firstEnemyBullet->setCoordinates({2010, 100});
+            presenter->getModel().firstEnemyBullet->setDirection({0, 0});
+        }
+        if (presenter->getModel().heroBullet[i]->collidesWithItem(presenter->getModel().secondEnemyBullet)) {
+            presenter->getModel().secondEnemyBullet->setCoordinates({2010, 100});
+            presenter->getModel().secondEnemyBullet->setDirection({0, 0});
+        }
     }
-
 }
 
 void MainWindow::firstEnemyMoving() {
@@ -187,5 +203,67 @@ void MainWindow::bossMoving() {
         presenter->getModel().boss_->setDirection({-1, 1.5});
     } else {
         presenter->getModel().boss_->setDirection({1, 1.5});
+    }
+}
+
+void MainWindow::bulletFirstEnemyMoving() {
+    if (timerChange == 45) {
+        presenter->getModel().firstEnemyBullet->setCoordinates(
+                {presenter->getModel().enemies_[0]->getCoordinates().x() - 60,
+                 presenter->getModel().enemies_[0]->getCoordinates().y() + 60});
+    }
+
+    if (timerChange / 45 >= 1) {
+        if (presenter->getModel().firstEnemyBullet->getCoordinates().x() != 2010) {
+            double distance = sqrt(pow((presenter->getModel().hero_->getCoordinates().x() -
+                                        presenter->getModel().firstEnemyBullet->getCoordinates().x()), 2) +
+                                   pow(presenter->getModel().hero_->getCoordinates().y() -
+                                       presenter->getModel().firstEnemyBullet->getCoordinates().y(), 2));
+
+            presenter->getModel().firstEnemyBullet->setDirection(
+                    {(presenter->getModel().hero_->getCoordinates().x() -
+                      presenter->getModel().firstEnemyBullet->getCoordinates().x()) / distance,
+                     (presenter->getModel().hero_->getCoordinates().y() -
+                      presenter->getModel().firstEnemyBullet->getCoordinates().y()) / distance});
+        }
+    }
+}
+
+void MainWindow::bulletSecondEnemyMoving() {
+    if (timerChange == 120) {
+        presenter->getModel().secondEnemyBullet->setCoordinates(
+                {presenter->getModel().enemies_[1]->getCoordinates().x() - 60,
+                 presenter->getModel().enemies_[1]->getCoordinates().y() + 60});
+    }
+
+    if (timerChange / 30 >= 4) {
+        if (presenter->getModel().secondEnemyBullet->getCoordinates().x() != 2010) {
+            double distance = sqrt(pow((presenter->getModel().hero_->getCoordinates().x() -
+                                        presenter->getModel().secondEnemyBullet->getCoordinates().x()), 2) +
+                                   pow(presenter->getModel().hero_->getCoordinates().y() -
+                                       presenter->getModel().secondEnemyBullet->getCoordinates().y(), 2));
+
+            presenter->getModel().secondEnemyBullet->setDirection(
+                    {(presenter->getModel().hero_->getCoordinates().x() -
+                      presenter->getModel().secondEnemyBullet->getCoordinates().x()) / distance,
+                     (presenter->getModel().hero_->getCoordinates().y() -
+                      presenter->getModel().secondEnemyBullet->getCoordinates().y()) / distance});
+        }
+    }
+}
+
+void MainWindow::collidesFirstEnemyBullet() {
+    if (presenter->getModel().firstEnemyBullet->collidesWithItem((presenter->getModel().hero_))) {
+        presenter->getModel().hero_->setHp(presenter->getModel().hero_->getHp() - presenter->getModel().firstEnemyBullet->getDamage());
+        presenter->getModel().firstEnemyBullet->setCoordinates({2010, 100});
+        presenter->getModel().firstEnemyBullet->setDirection({0, 0});
+    }
+}
+
+void MainWindow::collidesSecondEnemyBullet() {
+    if (presenter->getModel().secondEnemyBullet->collidesWithItem((presenter->getModel().hero_))) {
+        presenter->getModel().hero_->setHp(presenter->getModel().hero_->getHp() - presenter->getModel().secondEnemyBullet->getDamage());
+        presenter->getModel().secondEnemyBullet->setCoordinates({2010, 100});
+        presenter->getModel().secondEnemyBullet->setDirection({0, 0});
     }
 }

@@ -10,6 +10,7 @@ protected:
     Bullet(QPointF, QPointF);
     double width_ = 4;
     double height_ = 4;
+    double damage_;
 public:
     Bullet();
     QPointF getAttackBegin();
@@ -20,6 +21,10 @@ public:
     double getWidth() const;
     void setHeight(double);
     double getHeight() const;
+
+    int getDamage();
+
+    void setDamage(int);
     static QLineF trajectory(QPointF, QPointF);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     QRectF boundingRect() const;

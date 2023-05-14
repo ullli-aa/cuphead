@@ -37,6 +37,14 @@ double Bullet::getHeight() const {
     return height_;
 }
 
+int Bullet::getDamage() {
+    return damage_;
+}
+
+void Bullet::setDamage(int damage) {
+    damage_ = damage;
+}
+
 QLineF Bullet::trajectory(QPointF begin, QPointF end) {
     QLineF line(begin, end);
     return line;

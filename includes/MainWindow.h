@@ -36,6 +36,14 @@ public:
 
     void bossMoving();
 
+    void bulletFirstEnemyMoving();
+
+    void bulletSecondEnemyMoving();
+
+    void collidesFirstEnemyBullet();
+
+    void collidesSecondEnemyBullet();
+
 private:
     Presenter widget_;
 

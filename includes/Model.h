@@ -13,6 +13,8 @@ public:
     Boss* boss_;
     Bullet* bossBullet;
     std::vector<Enemies*> enemies_;
+    Bullet* firstEnemyBullet;
+    Bullet* secondEnemyBullet;
 
     void updateModel();
     void updateHeroBullet(int);
