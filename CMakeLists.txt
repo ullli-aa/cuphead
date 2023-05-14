@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.24)
 project(game_spaceBattle)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
@@ -14,7 +14,12 @@ find_package(Qt5 COMPONENTS
         Widgets
         REQUIRED)
 
-add_executable(game_spaceBattle main.cpp MainWindow.cpp MovingObject.cpp Presenter.cpp Creatures.cpp Bullet.cpp Hero.cpp Model.cpp Boss.cpp)
+file(GLOB_RECURSE SOURCES sources/*.cpp)
+
+add_executable(game_spaceBattle ${SOURCES})
+
+INCLUDE_DIRECTORIES(game_spaceBattle includes includes/MovingObjects includes/MovingObjects/Creatures)
+
 target_link_libraries(game_spaceBattle
         Qt5::Core
         Qt5::Gui

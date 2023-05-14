@@ -4,7 +4,7 @@
 #include "Model.h"
 
 class Presenter : public QWidget {
-Q_OBJECT
+//Q_OBJECT
 public:
     Presenter(QWidget* parent);
     void Tick();
