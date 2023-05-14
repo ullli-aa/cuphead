@@ -18,14 +18,24 @@ public:
 
     void setUpScene();
 
-    bool eventFilter(QObject* obj, QEvent* event) override;
+    bool eventFilter(QObject *obj, QEvent *event) override;
 
     void keyPressEvent(QKeyEvent *event) override;
 
     void keyReleaseEvent(QKeyEvent *event) override;
-    void timerEvent(QTimerEvent* event) override;
+
+    void timerEvent(QTimerEvent *event) override;
 
     void collidesBossBullet();
+
+    void collidesHeroBullet();
+
+    void firstEnemyMoving();
+
+    void secondEnemyMoving();
+
+    void bossMoving();
+
 private:
     Presenter widget_;
 
@@ -40,8 +50,8 @@ private:
     QBasicTimer animation_timer_;
     int timerChange = 0;
 
-    QGraphicsTextItem* heroHp = nullptr;
-    QGraphicsTextItem* heroHealth = nullptr;
+    QGraphicsTextItem *heroHp = nullptr;
+    QGraphicsTextItem *heroHealth = nullptr;
 };
 
 
