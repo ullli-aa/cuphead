@@ -24,6 +24,17 @@ void MainWindow::setUpScene() {
         scene_->addItem(presenter->getModel().heroBullet[i]);
     }
     scene_->addItem(presenter->getModel().boss_);
+    scene_->addItem(presenter->getModel().bossBullet);
+
+    heroHp = scene_->addText(QString::number(presenter->getModel().hero_->getHp()));
+    heroHp->setDefaultTextColor(QColor(Qt::darkRed));
+    heroHp->setFont(QFont("Courier New", 20));
+    heroHp->setPos(25, 25);
+
+    heroHealth = scene_->addText(QString::number(presenter->getModel().hero_->getHealth()));
+    heroHealth->setDefaultTextColor(QColor(Qt::darkRed));
+    heroHealth->setFont(QFont("Courier New", 20));
+    heroHealth->setPos(25, 60);
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
@@ -81,17 +92,17 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         if (timerChange == 200) {
             timerChange = 0;
         }
-
-        if (timerChange / 25 == 0 || timerChange / 25 == 7) {
-            presenter->getModel().boss_->setDirection({1, -1.5});
-        } else if (timerChange / 25 == 1 || timerChange / 25 == 6) {
-            presenter->getModel().boss_->setDirection({-1, -1.5});
-        } else if (timerChange / 25 == 2 || timerChange / 25 == 5) {
-            presenter->getModel().boss_->setDirection({-1, 1.5});
-        } else {
-            presenter->getModel().boss_->setDirection({1, 1.5});
-        }
         ++timerChange;
+    }
+
+    if (timerChange / 25 == 0 || timerChange / 25 == 7) {
+        presenter->getModel().boss_->setDirection({1, -1.5});
+    } else if (timerChange / 25 == 1 || timerChange / 25 == 6) {
+        presenter->getModel().boss_->setDirection({-1, -1.5});
+    } else if (timerChange / 25 == 2 || timerChange / 25 == 5) {
+        presenter->getModel().boss_->setDirection({-1, 1.5});
+    } else {
+        presenter->getModel().boss_->setDirection({1, 1.5});
     }
 
     for (int i = 0; i < presenter->getModel().heroBullet.size(); ++i) {
@@ -101,10 +112,44 @@ void MainWindow::timerEvent(QTimerEvent *event) {
             scene_->addItem(presenter->getModel().heroBullet[i]);
         }
         if (presenter->getModel().heroBullet[i]->collidesWithItem(presenter->getModel().boss_)) {
+            presenter->getModel().boss_->setHp(presenter->getModel().boss_->getHp() - 2);
             scene_->removeItem(presenter->getModel().heroBullet[i]);
             presenter->getModel().updateHeroBullet(i);
             scene_->addItem(presenter->getModel().heroBullet[i]);
         }
     }
+
+    if (timerChange % 10 < 5) {
+        presenter->getModel().bossBullet->setDirection({-8, -2});
+    } else {
+        presenter->getModel().bossBullet->setDirection({-8, 2});
+    }
+
+    collidesBossBullet();
     presenter->getModel().updateModel();
+}
+
+void MainWindow::collidesBossBullet() {
+    if (presenter->getModel().bossBullet->x() + 80 < 0) {
+        scene_->removeItem(presenter->getModel().bossBullet);
+        presenter->getModel().bossBullet->setCoordinates({presenter->getModel().boss_->getCoordinates().x() - 250,
+                                                          presenter->getModel().boss_->getCoordinates().y()});
+        scene_->addItem(presenter->getModel().bossBullet);
+    }
+
+    if (presenter->getModel().bossBullet->collidesWithItem(presenter->getModel().hero_)) {
+        presenter->getModel().hero_->setHp(presenter->getModel().hero_->getHp() - 20);
+        heroHp->setPlainText(QString::number(presenter->getModel().hero_->getHp()));
+
+        presenter->getModel().hero_->setHealth(presenter->getModel().hero_->getHp() / 60 + 1);
+        if( presenter->getModel().hero_->getHp() == 0) {
+            presenter->getModel().hero_->setHealth(0);
+        }
+        heroHealth->setPlainText(QString::number(presenter->getModel().hero_->getHealth()));
+
+        scene_->removeItem(presenter->getModel().bossBullet);
+        presenter->getModel().bossBullet->setCoordinates({presenter->getModel().boss_->getCoordinates().x() - 250,
+                                                          presenter->getModel().boss_->getCoordinates().y()});
+        scene_->addItem(presenter->getModel().bossBullet);
+    }
 }

@@ -13,7 +13,6 @@
 #include <QBasicTimer>
 
 class MainWindow : public QMainWindow {
-//Q_OBJECT;
 public:
     MainWindow(QWidget *parent = nullptr);
 
@@ -24,7 +23,9 @@ public:
     void keyPressEvent(QKeyEvent *event) override;
 
     void keyReleaseEvent(QKeyEvent *event) override;
-    void timerEvent(QTimerEvent* event);
+    void timerEvent(QTimerEvent* event) override;
+
+    void collidesBossBullet();
 private:
     Presenter widget_;
 
@@ -38,6 +39,9 @@ private:
     int attack = 9;
     QBasicTimer animation_timer_;
     int timerChange = 0;
+
+    QGraphicsTextItem* heroHp = nullptr;
+    QGraphicsTextItem* heroHealth = nullptr;
 };
 
 

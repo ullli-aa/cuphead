@@ -15,6 +15,14 @@ void Hero::setPoints(int points) {
     points_ = points;
 }
 
+int Hero::getHp() const {
+    return hp_;
+}
+
+void Hero::setHp(int hp) {
+    hp_ = hp;
+}
+
 void Hero::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     painter->setPen({Qt::black, 2});
     painter->drawRect(boundingRect());

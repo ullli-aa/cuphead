@@ -21,8 +21,25 @@ void Bullet::setAttackEnd(QPointF end) {
     attackEnd_ = end;
 }
 
+void Bullet::setWidth(double width) {
+    width_ = width;
+}
+
+double Bullet::getWidth() const {
+    return width_;
+}
+
+void Bullet::setHeight(double height) {
+    height_ = height;
+}
+
+double Bullet::getHeight() const {
+    return height_;
+}
+
 QLineF Bullet::trajectory(QPointF begin, QPointF end) {
-    return QLineF(begin, end);
+    QLineF line(begin, end);
+    return line;
 }
 
 void Bullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
@@ -31,5 +48,6 @@ void Bullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 }
 
 QRectF Bullet::boundingRect() const {
-    return QRectF(-25, -2, 50, 4);
+    QRectF rect(-1 * getWidth() / 2, -1 * getHeight() / 2, getWidth(), getHeight());
+    return rect;
 }

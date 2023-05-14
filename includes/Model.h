@@ -10,9 +10,8 @@ public:
     Hero* hero_;
     std::vector<Bullet*> heroBullet;
     Boss* boss_;
+    Bullet* bossBullet;
 
     void updateModel();
     void updateHeroBullet(int);
-    void addHeroBullet(int pos);
-    void deleteHeroBullet(int pos);
 };
