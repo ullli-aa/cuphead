@@ -5,6 +5,8 @@
 #include <QGraphicsView>
 #include <QTimerEvent>
 #include <QWidget>
+#include <QPushButton>
+#include <QLabel>
 #include "Presenter.h"
 #include <QPainter>
 #include <QImage>
@@ -25,27 +27,8 @@ public:
     void keyReleaseEvent(QKeyEvent *event) override;
 
     void timerEvent(QTimerEvent *event) override;
-
-    void collidesBossBullet();
-
-    void collidesHeroBullet();
-
-    void firstEnemyMoving();
-
-    void secondEnemyMoving();
-
-    void bossMoving();
-
-    void bulletFirstEnemyMoving();
-
-    void bulletSecondEnemyMoving();
-
-    void collidesFirstEnemyBullet();
-
-    void collidesSecondEnemyBullet();
-
 private:
-    Presenter widget_;
+    QWidget* widget_;
 
     QGraphicsScene *scene_;
     QGraphicsView *view_;
@@ -58,7 +41,7 @@ private:
     QBasicTimer animation_timer_;
     int timerChange = 0;
 
-    QGraphicsTextItem *heroHp = nullptr;
+    QGraphicsTextItem *bossHp = nullptr;
     QGraphicsTextItem *heroHealth = nullptr;
 };
 
