@@ -8,6 +8,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include "Presenter.h"
+#include "GameWindows.h"
 #include <QPainter>
 #include <QImage>
 #include "Presenter.h"
@@ -27,13 +28,16 @@ public:
     void keyReleaseEvent(QKeyEvent *event) override;
 
     void timerEvent(QTimerEvent *event) override;
+
+    void startGame();
 private:
-    QWidget* widget_;
+    QWidget* widget_ = nullptr;
 
     QGraphicsScene *scene_;
     QGraphicsView *view_;
 
     Presenter *presenter;
+    GameWindows *menu;
 
     QSet<int> pressedKeys;
 

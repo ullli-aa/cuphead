@@ -7,7 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent),
           scene_(new QGraphicsScene(this)),
           view_(new QGraphicsView(this)),
-          presenter(new Presenter(this)) {
+          presenter(new Presenter(this)),
+          menu(new GameWindows(this)) {
     resize(maximumWidth(), maximumHeight());
     scene_->setSceneRect(1, 1, 1918, 1078);
     view_->setFixedSize(1920, 1080);
@@ -15,7 +16,8 @@ MainWindow::MainWindow(QWidget *parent)
     setUpScene();
     setFocusPolicy(Qt::StrongFocus);
     view_->viewport()->installEventFilter(this);
-    animation_timer_.start(20, this);
+    showFullScreen();
+    startGame();
 }
 
 void MainWindow::setUpScene() {
@@ -131,46 +133,48 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     }
     heroHealth->setPlainText(QString::number(presenter->getModel().hero_->getHealth()));
 
-    if(presenter->finishGame() != 0) {
-        widget_ = new QWidget;
-        widget_->setStyleSheet("background-color: lavender;");
-        if(presenter->finishGame() == 1) {
-            auto* label = new QLabel("You've lost", widget_);
-            label->setFont(QFont("Courier New", 30));
-            label->move(435, 385);
-        }
-        if(presenter->finishGame() == 2) {
-            auto* label = new QLabel("You WIN!!!!", widget_);
-            label->setFont(QFont("Courier New", 30));
-            label->move(435, 385);
-        }
+    if (presenter->finishGame() != 0) {
+        animation_timer_.stop();
 
-        auto* exit = new QPushButton("Exit", widget_);
-        exit->resize(160, 80);
-        exit->setFont(QFont("Courier New", 20));
-        exit->move(235, 600);
+        menu->widgetFinishGame(presenter->finishGame());
 
-        auto* replay = new QPushButton("Replay", widget_);
+        auto *replay = new QPushButton("Replay", menu);
         replay->resize(160, 80);
         replay->setFont(QFont("Courier New", 20));
         replay->move(735, 600);
 
-        QGraphicsProxyWidget* item = scene_->addWidget(widget_);
+        QGraphicsProxyWidget *item = scene_->addWidget(menu);
         item->resize(1200, 800);
         item->setPos(360, 140);
-        animation_timer_.stop();
 
         connect(replay, &QPushButton::clicked, this, [&] {
-            scene_->removeItem(widget_->graphicsProxyWidget());
             presenter->replayModel();
             animation_timer_.start(20, this);
             timerChange = 0;
-        });
-
-        connect(exit, &QPushButton::clicked, this, [&] {
-            close();
+            scene_->removeItem(menu->graphicsProxyWidget());
+            delete menu;
+            menu = new GameWindows(this);
         });
     }
-    presenter->menuProcess();
     presenter->getModel().updateModel();
+}
+
+void MainWindow::startGame() {
+    menu->widgetStartGame();
+    auto *play = new QPushButton("Play", menu);
+    play->resize(160, 80);
+    play->setFont(QFont("Courier New", 20));
+    play->move(235, 600);
+
+    QGraphicsProxyWidget *item = scene_->addWidget(menu);
+    item->resize(1200, 800);
+    item->setPos(360, 140);
+
+    connect(play, &QPushButton::clicked, menu, [&] {
+        menu->close();
+        scene_->removeItem(menu->graphicsProxyWidget());
+        animation_timer_.start(20, this);
+        delete menu;
+        menu = new GameWindows(this);
+    });
 }

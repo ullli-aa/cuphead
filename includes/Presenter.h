@@ -11,7 +11,7 @@ public:
 
     void Tick();
 
-    QWidget* getWidget();
+//    QWidget* getWidget();
 
     Model getModel();
 
@@ -39,13 +39,11 @@ public:
 
     int finishGame() const;
 
-    void menuProcess();
+    int startGame() const;
 
     void replayModel();
-
-private:
+protected:
     Model* model;
     int attackTime = 0;
-    QWidget * widget_;
 };
 

@@ -2,12 +2,12 @@
 #include "cmath"
 #include <QDebug>
 
-Presenter::Presenter(QWidget *parent) : QWidget(parent), model(new Model()), widget_(new QWidget) {
+Presenter::Presenter(QWidget *parent) : QWidget(parent), model(new Model()) {
 }
 
-QWidget* Presenter::getWidget() {
-    return widget_;
-}
+//QWidget* Presenter::getWidget() {
+//    return widget_;
+//}
 
 Model Presenter::getModel() {
     return *model;
@@ -165,30 +165,8 @@ int Presenter::finishGame() const {
     return 0;
 }
 
-void Presenter::menuProcess() {
-    if (finishGame() != 0) {
-//        auto* button = new QPushButton("Exit", widget_);
-//        button->resize(120, 40);
-//        button->setFont(QFont("Courier New", 20));
-//        button->move(135, 600);
-//
-//        connect(button, &QPushButton::clicked, this, [&] {
-//            close();
-//        });
+int Presenter::startGame() const {
 
-
-        if(finishGame() == 1) {
-            auto* label = new QLabel("You've lost", widget_);
-            label->setFont(QFont("Courier New", 30));
-            label->move(435, 385);
-        }
-        if(finishGame() == 2) {
-            auto* label = new QLabel("You've lost", widget_);
-            label->setFont(QFont("Courier New", 30));
-            label->move(435, 385);
-        }
-
-    }
 }
 
 void Presenter::replayModel() {
