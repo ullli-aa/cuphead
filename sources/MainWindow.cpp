@@ -141,7 +141,7 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     }
     connect(menu, &GameWindows::Replay, [this](){
         presenter->replayModel();
-        animation_timer_.start(16, this);
+        animation_timer_.start(20, this);
         timerChange = 0;
     });
 
@@ -152,6 +152,6 @@ void MainWindow::startGame() {
     menu->widgetStartGame();
 
     connect(menu, &GameWindows::Start, [this]() {
-        animation_timer_.start(16, this);
+        animation_timer_.start(20, this);
     });
 }
