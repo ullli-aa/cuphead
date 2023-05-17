@@ -11,7 +11,6 @@
 #include "GameWindows.h"
 #include <QPainter>
 #include <QImage>
-#include "Presenter.h"
 #include <QMouseEvent>
 #include <QBasicTimer>
 

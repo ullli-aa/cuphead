@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
           scene_(new QGraphicsScene(this)),
           view_(new QGraphicsView(this)),
           presenter(new Presenter(this)),
-          menu(new GameWindows(this)) {
+          menu(new GameWindows(this, scene_)) {
     resize(maximumWidth(), maximumHeight());
     scene_->setSceneRect(1, 1, 1918, 1078);
     view_->setFixedSize(1920, 1080);
@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent)
     setFocusPolicy(Qt::StrongFocus);
     view_->viewport()->installEventFilter(this);
     showFullScreen();
+
     startGame();
 }
 
@@ -135,46 +136,22 @@ void MainWindow::timerEvent(QTimerEvent *event) {
 
     if (presenter->finishGame() != 0) {
         animation_timer_.stop();
-
+        menu = new GameWindows(this, scene_);
         menu->widgetFinishGame(presenter->finishGame());
-
-        auto *replay = new QPushButton("Replay", menu);
-        replay->resize(160, 80);
-        replay->setFont(QFont("Courier New", 20));
-        replay->move(735, 600);
-
-        QGraphicsProxyWidget *item = scene_->addWidget(menu);
-        item->resize(1200, 800);
-        item->setPos(360, 140);
-
-        connect(replay, &QPushButton::clicked, this, [&] {
-            presenter->replayModel();
-            animation_timer_.start(20, this);
-            timerChange = 0;
-            scene_->removeItem(menu->graphicsProxyWidget());
-            delete menu;
-            menu = new GameWindows(this);
-        });
     }
+    connect(menu, &GameWindows::Replay, [this](){
+        presenter->replayModel();
+        animation_timer_.start(16, this);
+        timerChange = 0;
+    });
+
     presenter->getModel().updateModel();
 }
 
 void MainWindow::startGame() {
     menu->widgetStartGame();
-    auto *play = new QPushButton("Play", menu);
-    play->resize(160, 80);
-    play->setFont(QFont("Courier New", 20));
-    play->move(235, 600);
 
-    QGraphicsProxyWidget *item = scene_->addWidget(menu);
-    item->resize(1200, 800);
-    item->setPos(360, 140);
-
-    connect(play, &QPushButton::clicked, menu, [&] {
-        menu->close();
-        scene_->removeItem(menu->graphicsProxyWidget());
-        animation_timer_.start(20, this);
-        delete menu;
-        menu = new GameWindows(this);
+    connect(menu, &GameWindows::Start, [this]() {
+        animation_timer_.start(16, this);
     });
 }
