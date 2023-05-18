@@ -5,10 +5,6 @@
 Presenter::Presenter(QWidget *parent) : QWidget(parent), model(new Model()) {
 }
 
-//QWidget* Presenter::getWidget() {
-//    return widget_;
-//}
-
 Model Presenter::getModel() {
     return *model;
 }
@@ -91,7 +87,9 @@ void Presenter::bossMoving() const {
 
 void Presenter::firstEnemyMoving() {
     if (attackTime / 45 == 0) {
-        model->enemies_[0]->setCoordinatesY(model->hero_->getCoordinates().y());
+        if(attackTime % 45 == 0) {
+            model->enemies_[0]->setCoordinatesY(model->hero_->getCoordinates().y());
+        }
         model->enemies_[0]->setDirection({-9, 0});
     } else if (attackTime / 45 == 2) {
         model->enemies_[0]->setDirection({9, 0});
@@ -102,7 +100,9 @@ void Presenter::firstEnemyMoving() {
 
 void Presenter::secondEnemyMoving() {
     if (attackTime / 30 == 3) {
-        model->enemies_[1]->setCoordinatesY(model->hero_->getCoordinates().y());
+        if(attackTime % 30 == 0) {
+            model->enemies_[1]->setCoordinatesY(model->hero_->getCoordinates().y());
+        }
         model->enemies_[1]->setDirection({-11, 0});
     } else if (attackTime / 30 == 5) {
         model->enemies_[1]->setDirection({11, 0});
@@ -115,7 +115,7 @@ void Presenter::bulletFirstEnemyMoving() {
     if (attackTime == 45) {
         model->firstEnemyBullet->setCoordinates(
                 {model->enemies_[0]->getCoordinates().x() - 60,
-                 model->enemies_[0]->getCoordinates().y() + 60});
+                 model->enemies_[0]->getCoordinates().y() + 20});
     }
 
     if (attackTime / 45 >= 1) {
@@ -138,7 +138,7 @@ void Presenter::bulletSecondEnemyMoving() {
     if (attackTime == 120) {
         model->secondEnemyBullet->setCoordinates(
                 {model->enemies_[1]->getCoordinates().x() - 60,
-                 model->enemies_[1]->getCoordinates().y() + 60});
+                 model->enemies_[1]->getCoordinates().y() + 20});
     }
 
     if (attackTime / 30 >= 4) {
@@ -167,10 +167,6 @@ int Presenter::finishGame() const {
     return 0;
 }
 
-int Presenter::startGame() const {
-
-}
-
 void Presenter::replayModel() {
     model->hero_->setCoordinates({130, 500});
     model->hero_->setDirection({0, 0});
@@ -187,10 +183,10 @@ void Presenter::replayModel() {
     model->bossBullet->setCoordinates({1520 - 250, 515});
     model->bossBullet->setDirection({0, 0});
 
-    model->firstEnemyBullet->setCoordinates({2010, 100});
+    model->firstEnemyBullet->setCoordinates({2025, 100});
     model->firstEnemyBullet->setDirection({0, 0});
 
-    model->secondEnemyBullet->setCoordinates({2010, 100});
+    model->secondEnemyBullet->setCoordinates({2025, 100});
     model->secondEnemyBullet->setDirection({0, 0});
 
     model->hero_->setHealth(5);

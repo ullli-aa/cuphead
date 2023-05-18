@@ -11,8 +11,6 @@ public:
 
     void Tick();
 
-//    QWidget* getWidget();
-
     Model getModel();
 
     int getAttack();
@@ -38,8 +36,6 @@ public:
     void bulletSecondEnemyMoving();
 
     int finishGame() const;
-
-    int startGame() const;
 
     void replayModel();
 protected:

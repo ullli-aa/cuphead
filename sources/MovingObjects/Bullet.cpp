@@ -51,7 +51,7 @@ QLineF Bullet::trajectory(QPointF begin, QPointF end) {
 }
 
 void Bullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    painter->setPen({Qt::red, 4});
+    painter->setPen({Qt::transparent, 4});
     painter->drawRect(boundingRect());
 }
 

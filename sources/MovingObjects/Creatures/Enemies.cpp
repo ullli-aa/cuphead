@@ -1,8 +1,13 @@
 #include "Enemies.h"
 #include <QPainter>
 Enemies::Enemies() : Creatures(1) {
-    coordinates_ = {2000, coordinateY};
-    setPos({2000, coordinateY});
+    auto item = new QPixmap(":resources/boss/Enemy_purple/b_blimp_enemy_idle_0005.png");
+    *item = item->scaled(220, 130);
+    auto enemy = new QGraphicsPixmapItem(*item, this);
+    enemy->setPos(-110, -65);
+
+    coordinates_ = {2025, coordinateY};
+    setPos({2025, coordinateY});
     speed_ = 3;
     direction_ = {0, 0};
 }
@@ -13,12 +18,12 @@ void Enemies::setCoordinatesY(double y) {
 }
 
 void Enemies::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    painter->setPen({Qt::blue, 2});
+    painter->setPen({Qt::transparent, 2});
     painter->drawEllipse(boundingRect());
 }
 
 QRectF Enemies::boundingRect() const {
-    QRectF rect(QRectF(-70, -70, 140, 140));
+    QRectF rect(QRectF(-50, -50, 100, 100));
     return rect;
 }
 

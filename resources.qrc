@@ -3,5 +3,9 @@
         <file>resources/hero/Idle_straight/mugman_plane_idle_straight_0001.png</file>
         <file>resources/boss/blimp_shoot_0001.png</file>
         <file>resources/boss/bossBullet/blimp_ha_0013.png</file>
+        <file>resources/boss/Enemy_purple/b_blimp_enemy_idle_0005.png</file>
+        <file>resources/boss/Enemy_purple/blimp_enemy_bullet_a_0001.png</file>
+        <file>resources/hero/chalice_shmup_3way_bullet_b_0001.png</file>
+        <file>resources/background.png</file>
     </qresource>
 </RCC>

@@ -10,6 +10,7 @@ Boss::Boss() : Creatures(5) {
 
     speed_ = 3;
     coordinates_ = QPointF{1520, 515};
+    setPos(coordinates_);
 }
 
 int Boss::getHp() const {

@@ -22,6 +22,10 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::setUpScene() {
+    auto bckgrnd = new QPixmap(":resources/background.png");
+    *bckgrnd = bckgrnd->scaled(1920, 1080);
+    scene_->addPixmap(*bckgrnd);
+
     scene_->addItem(presenter->getModel().hero_);
     for (int i = 0; i < 10; ++i) {
         scene_->addItem(presenter->getModel().heroBullet[i]);
