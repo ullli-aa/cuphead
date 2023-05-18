@@ -73,6 +73,27 @@ void Presenter::collidesSecondEnemyBullet() const {
     }
 }
 
+void Presenter::collidesHero() {
+    if(model->hero_->getCoordinates().x() < 0) {
+        model->hero_->setCoordinates({0, model->hero_->getCoordinates().y()});
+    } else if (model->hero_->getCoordinates().x() > 1918) {
+        model->hero_->setCoordinates({1920, model->hero_->getCoordinates().y()});
+    } else if (model->hero_->getCoordinates().y() < 0) {
+        model->hero_->setCoordinates({model->hero_->getCoordinates().x(), 0});
+    } else if (model->hero_->getCoordinates().y() > 1018) {
+        model->hero_->setCoordinates({model->hero_->getCoordinates().x(), 1020});
+    }
+
+    for(auto enemy : model->enemies_) {
+        if(model->hero_->collidesWithItem(enemy)) {
+            model->hero_->setHp(model->hero_->getHp() - 10);
+        }
+    }
+    if(model->hero_->collidesWithItem(model->boss_)) {
+        model->hero_->setHp(0);
+    }
+}
+
 void Presenter::bossMoving() const {
     if (attackTime / 25 == 0 || attackTime / 25 == 7) {
         model->boss_->setDirection({1, -1.5});
@@ -177,7 +198,7 @@ void Presenter::replayModel() {
         i->setDirection({0, 0});
     }
     for (auto &enemy: model->enemies_) {
-        enemy->setCoordinates({2000, 100});
+        enemy->setCoordinates({2025, 100});
         enemy->setDirection({0, 0});
     }
     model->bossBullet->setCoordinates({1520 - 250, 515});

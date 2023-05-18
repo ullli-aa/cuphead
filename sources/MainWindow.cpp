@@ -126,6 +126,7 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     presenter->collidesBossBullet();
     presenter->collidesFirstEnemyBullet();
     presenter->collidesSecondEnemyBullet();
+    presenter->collidesHero();
 
     bossHp->setPlainText(QString::number(presenter->getModel().boss_->getHp()));
 

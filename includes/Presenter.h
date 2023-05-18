@@ -25,6 +25,8 @@ public:
 
     void collidesSecondEnemyBullet() const;
 
+    void collidesHero();
+
     void firstEnemyMoving();
 
     void secondEnemyMoving();
