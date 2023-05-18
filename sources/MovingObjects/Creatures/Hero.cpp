@@ -6,7 +6,7 @@ Hero::Hero() : Creatures(5) {
     *item = item->scaled(135, 135);
     auto hero = new QGraphicsPixmapItem(*item, this);
     hero->setPos(-75, -70);
-    speed_ = 8;
+    speed_ = 17;
     coordinates_ = QPointF{130, 500};
     setPos(coordinates_);
 }

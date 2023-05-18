@@ -2,13 +2,7 @@
 #include <QPainter>
 
 Boss::Boss() : Creatures(5) {
-    auto item = new QPixmap(":resources/boss/blimp_shoot_0001.png");
-    *item = item->scaled(500, 540, Qt::IgnoreAspectRatio);
-    auto boss = new QGraphicsPixmapItem(*item, this);
-
-    boss->setPos(-240, -240);
-
-    speed_ = 3;
+    speed_ = 10;
     coordinates_ = QPointF{1520, 515};
     setPos(coordinates_);
 }

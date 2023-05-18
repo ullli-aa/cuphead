@@ -5,19 +5,23 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
                  secondEnemyBullet(new Bullet) {
     for (int i = 0; i < 10; ++i) {
         heroBullet.push_back(new Bullet);
-        heroBullet[i]->setCoordinates({-4, -4});
-        heroBullet[i]->setWidth(40);
-        heroBullet[i]->setHeight(16);
+        heroBullet[i]->setCoordinates({-10, -10});
+        heroBullet[i]->setWidth(46);
+        heroBullet[i]->setHeight(20);
         auto item3 = new QPixmap(":resources/hero/chalice_shmup_3way_bullet_b_0001.png");
         *item3 = item3->scaled(80, 32);
         auto hrBull = new QGraphicsPixmapItem(*item3, heroBullet[i]);
-        hrBull->setPos(-45, -16);
+        hrBull->setPos(-45, -10);
     }
     for (int i = 0; i < 2; ++i) {
         enemies_.push_back(new Enemies);
     }
+    enemies_[0]->setCoordinates({3125, 100});
+    enemies_[0]->setPos(enemies_[0]->getCoordinates());
+    enemies_[1]->setSpeed(17);
+
     bossBullet->setCoordinates({boss_->getCoordinates().x() - 250, boss_->getCoordinates().y()});
-    bossBullet->setSpeed(2);
+    bossBullet->setSpeed(6);
     bossBullet->setWidth(180);
     bossBullet->setHeight(90);
     auto item = new QPixmap(":resources/boss/bossBullet/blimp_ha_0013.png");
@@ -26,7 +30,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
     bossBull->setPos(-90, -45);
 
     firstEnemyBullet->setCoordinates({enemies_[0]->getCoordinates()});
-    firstEnemyBullet->setSpeed(17);
+    firstEnemyBullet->setSpeed(43);
     firstEnemyBullet->setWidth(30);
     firstEnemyBullet->setHeight(30);
     firstEnemyBullet->setDamage(2);
@@ -36,7 +40,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
     frstBull->setPos(-27, -13);
 
     secondEnemyBullet->setCoordinates({enemies_[1]->getCoordinates()});
-    secondEnemyBullet->setSpeed(24);
+    secondEnemyBullet->setSpeed(50);
     secondEnemyBullet->setWidth(16);
     secondEnemyBullet->setHeight(16);
     secondEnemyBullet->setDamage(4);
@@ -49,7 +53,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
 void Model::updateModel() {
     for (auto &bull: heroBullet) {
         if (bull->getCoordinates().y() != 0) {
-            bull->move(1.2, bull->getDirection());
+            bull->move(4, bull->getDirection());
             bull->setAttackBegin(bull->getCoordinates());
             bull->setAttackEnd({bull->getCoordinates().x() + 10, bull->getCoordinates().y() + 10});
         }
@@ -68,7 +72,7 @@ void Model::updateModel() {
 }
 
 void Model::updateHeroBullet(int pos) {
-    heroBullet[pos]->setCoordinates({-4, -4});
-    heroBullet[pos]->setPos({-4, -4});
-    heroBullet[pos]->setDirection({0,0});
+    heroBullet[pos]->setCoordinates({-10, -10});
+    heroBullet[pos]->setPos({-10, -10});
+    heroBullet[pos]->setDirection({0, 0});
 }
