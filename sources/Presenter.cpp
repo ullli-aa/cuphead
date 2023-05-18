@@ -30,12 +30,14 @@ void Presenter::setAttack(int n) {
 
 void Presenter::collidesBossBullet() const {
     if (model->bossBullet->x() + 80 < 0) {
-        model->bossBullet->setCoordinates({model->boss_->getCoordinates().x() - 250, model->boss_->getCoordinates().y()});
+        model->bossBullet->setCoordinates(
+                {model->boss_->getCoordinates().x() - 250, model->boss_->getCoordinates().y()});
     }
 
     if (model->bossBullet->collidesWithItem(model->hero_)) {
         model->hero_->setHp(model->hero_->getHp() - 20);
-        model->bossBullet->setCoordinates({model->boss_->getCoordinates().x() - 250, model->boss_->getCoordinates().y()});
+        model->bossBullet->setCoordinates(
+                {model->boss_->getCoordinates().x() - 250, model->boss_->getCoordinates().y()});
     }
 }
 
@@ -156,7 +158,7 @@ void Presenter::bulletSecondEnemyMoving() {
 }
 
 int Presenter::finishGame() const {
-    if(model->hero_->death()) {
+    if (model->hero_->death()) {
         return 1;
     }
     if (model->boss_->getHp() == 0) {
@@ -171,25 +173,25 @@ int Presenter::startGame() const {
 
 void Presenter::replayModel() {
     model->hero_->setCoordinates({130, 500});
-    model->hero_->setDirection({0,0});
+    model->hero_->setDirection({0, 0});
     model->boss_->setCoordinates({{1520, 515}});
-    model->boss_->setDirection({0,0});
-    for (auto & i : model->heroBullet) {
+    model->boss_->setDirection({0, 0});
+    for (auto &i: model->heroBullet) {
         i->setCoordinates({-4, -4});
-        i->setDirection({0,0});
+        i->setDirection({0, 0});
     }
-    for (auto & enemy : model->enemies_) {
+    for (auto &enemy: model->enemies_) {
         enemy->setCoordinates({2000, 100});
-        enemy->setDirection({0,0});
+        enemy->setDirection({0, 0});
     }
     model->bossBullet->setCoordinates({1520 - 250, 515});
-    model->bossBullet->setDirection({0,0});
+    model->bossBullet->setDirection({0, 0});
 
     model->firstEnemyBullet->setCoordinates({2010, 100});
-    model->firstEnemyBullet->setDirection({0,0});
+    model->firstEnemyBullet->setDirection({0, 0});
 
     model->secondEnemyBullet->setCoordinates({2010, 100});
-    model->secondEnemyBullet->setDirection({0,0});
+    model->secondEnemyBullet->setDirection({0, 0});
 
     model->hero_->setHealth(5);
     model->hero_->setHp(300);

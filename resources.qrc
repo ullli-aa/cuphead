@@ -1,0 +1,7 @@
+<RCC>
+    <qresource>
+        <file>resources/hero/Idle_straight/mugman_plane_idle_straight_0001.png</file>
+        <file>resources/boss/blimp_shoot_0001.png</file>
+        <file>resources/boss/bossBullet/blimp_ha_0013.png</file>
+    </qresource>
+</RCC>

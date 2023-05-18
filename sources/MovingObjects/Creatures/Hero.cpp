@@ -1,18 +1,14 @@
 #include "Hero.h"
 #include <QPainter>
 
-Hero::Hero() : Creatures(5), points_(0) {
+Hero::Hero() : Creatures(5) {
+    auto item = new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0001.png");
+    *item = item->scaled(135, 135);
+    auto hero = new QGraphicsPixmapItem(*item, this);
+    hero->setPos(-75, -70);
     speed_ = 8;
     coordinates_ = QPointF{130, 500};
     setPos(coordinates_);
-}
-
-int Hero::getPoints() const {
-    return points_;
-}
-
-void Hero::setPoints(int points) {
-    points_ = points;
 }
 
 int Hero::getHp() const {
@@ -24,10 +20,10 @@ void Hero::setHp(int hp) {
 }
 
 void Hero::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    painter->setPen({Qt::black, 2});
+    painter->setPen({Qt::transparent, 2});
     painter->drawRect(boundingRect());
 }
 
 QRectF Hero::boundingRect() const {
-    return QRectF(-70, -70, 140, 140);
+    return QRectF(-60, -60, 120, 120);
 }
