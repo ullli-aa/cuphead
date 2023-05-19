@@ -14,9 +14,9 @@ public:
 
     Model getModel();
 
-    int getAttack();
+    int getAnimationTime();
 
-    void setAttack(int);
+    void setAnimationTime(int);
 
     void collidesBossBullet() const;
 
@@ -46,6 +46,7 @@ public:
 protected:
     Model* model;
     int attackTime = 0;
+    int animationTime = 0;
     Animation* animation;
 };
 

@@ -16,12 +16,12 @@ void Presenter::Tick() {
     }
 }
 
-int Presenter::getAttack() {
-    return attackTime;
+int Presenter::getAnimationTime() {
+    return animationTime;
 }
 
-void Presenter::setAttack(int n) {
-    attackTime = n;
+void Presenter::setAnimationTime(int n) {
+    animationTime = n;
 }
 
 void Presenter::collidesBossBullet() const {
@@ -219,6 +219,18 @@ void Presenter::replayModel() {
 }
 
 void Presenter::updateAnimation() {
-    animation->bossAnimation(model->boss_, attackTime, model->boss_->getItems());
-    animation->heroAnimation(model->hero_, attackTime, model->hero_->getItems());
+    animation->bossAnimation(model->boss_, animationTime / 3, model->boss_->getItems());
+    animation->heroAnimation(model->hero_, animationTime, model->hero_->getItems());
+
+    if (attackTime > 89) {
+        animation->enemyAnimation(model->enemies_[0], animationTime, model->enemies_[0]->getItemsBack());
+    } else {
+        animation->enemyAnimation(model->enemies_[0], animationTime, model->enemies_[0]->getItems());
+    }
+
+    if (attackTime > 149) {
+        animation->enemyAnimation(model->enemies_[1], animationTime, model->enemies_[1]->getItemsBack());
+    } else {
+        animation->enemyAnimation(model->enemies_[1], animationTime, model->enemies_[1]->getItems());
+    }
 }

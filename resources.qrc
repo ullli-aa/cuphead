@@ -4,6 +4,7 @@
         <file>resources/hero/Idle_straight/mugman_plane_idle_straight_0002.png</file>
         <file>resources/hero/Idle_straight/mugman_plane_idle_straight_0003.png</file>
         <file>resources/hero/Idle_straight/mugman_plane_idle_straight_0004.png</file>
+
         <file>resources/boss/Idle/blimp_idle_0001.png</file>
         <file>resources/boss/Idle/blimp_idle_0002.png</file>
         <file>resources/boss/Idle/blimp_idle_0003.png</file>
@@ -25,9 +26,35 @@
         <file>resources/boss/Idle/blimp_idle_0019.png</file>
         <file>resources/boss/Idle/blimp_idle_0020.png</file>
         <file>resources/boss/Idle/blimp_idle_0021.png</file>
+
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0001.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0002.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0003.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0004.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0005.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0006.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0007.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0008.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0009.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0010.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0011.png</file>
+        <file>resources/Enemy_purple/Idle/b_blimp_enemy_idle_0012.png</file>
+
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0001.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0002.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0003.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0004.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0005.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0006.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0007.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0008.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0009.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0010.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0011.png</file>
+        <file>resources/Enemy_purple/Idle_back/b_blimp_enemy_idle_back_0012.png</file>
+
         <file>resources/boss/bossBullet/blimp_ha_0013.png</file>
-        <file>resources/boss/Enemy_purple/b_blimp_enemy_idle_0005.png</file>
-        <file>resources/boss/Enemy_purple/blimp_enemy_bullet_a_0001.png</file>
+        <file>resources/Enemy_purple/bullet/blimp_enemy_bullet_a_0001.png</file>
         <file>resources/hero/chalice_shmup_3way_bullet_b_0001.png</file>
         <file>resources/background.png</file>
     </qresource>

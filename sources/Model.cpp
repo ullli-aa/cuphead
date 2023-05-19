@@ -34,7 +34,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
     firstEnemyBullet->setWidth(30);
     firstEnemyBullet->setHeight(30);
     firstEnemyBullet->setDamage(2);
-    auto item1 = new QPixmap(":resources/boss/Enemy_purple/blimp_enemy_bullet_a_0001.png");
+    auto item1 = new QPixmap(":resources/Enemy_purple/bullet/blimp_enemy_bullet_a_0001.png");
     *item1 = item1->scaled(54, 27);
     auto frstBull = new QGraphicsPixmapItem(*item1, firstEnemyBullet);
     frstBull->setPos(-27, -13);
@@ -44,7 +44,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
     secondEnemyBullet->setWidth(16);
     secondEnemyBullet->setHeight(16);
     secondEnemyBullet->setDamage(4);
-    auto item2 = new QPixmap(":resources/boss/Enemy_purple/blimp_enemy_bullet_a_0001.png");
+    auto item2 = new QPixmap(":resources/Enemy_purple/bullet/blimp_enemy_bullet_a_0001.png");
     *item2 = item2->scaled(40, 20);
     auto scndBull = new QGraphicsPixmapItem(*item2, secondEnemyBullet);
     scndBull->setPos(-20, -10);

@@ -149,7 +149,10 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         animation_timer_.start(20, this);
         timerChange = 0;
     });
-
+    if(presenter->getAnimationTime() == 84 * 3) {
+        presenter->setAnimationTime(0);
+    }
+    presenter->setAnimationTime(presenter->getAnimationTime() + 1);
     presenter->getModel().updateModel();
     presenter->updateAnimation();
 }
