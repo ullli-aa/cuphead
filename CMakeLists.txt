@@ -16,7 +16,7 @@ find_package(Qt5 COMPONENTS
 
 file(GLOB_RECURSE SOURCES sources/*.cpp)
 
-add_executable(game_spaceBattle ${SOURCES}  sources/GameWindows.cpp includes/GameWindows.h resources.qrc)
+add_executable(game_spaceBattle ${SOURCES}  sources/GameWindows.cpp includes/GameWindows.h resources.qrc includes/Animation.h)
 
 INCLUDE_DIRECTORIES(game_spaceBattle includes includes/MovingObjects includes/MovingObjects/Creatures)
 

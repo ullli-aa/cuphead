@@ -4,6 +4,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include "Model.h"
+#include "Animation.h"
 
 class Presenter : public QWidget {
 public:
@@ -40,8 +41,11 @@ public:
     int finishGame() const;
 
     void replayModel();
+
+    void updateAnimation();
 protected:
     Model* model;
     int attackTime = 0;
+    Animation* animation;
 };
 

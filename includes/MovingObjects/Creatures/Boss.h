@@ -6,13 +6,13 @@
 class Boss : public Creatures{
 private:
     int hp_ = 1000;
-    QPainterPath path;
+    std::vector<QPixmap*> boss;
 public:
     Boss();
     int getHp() const;
     void setHp(int);
 
-    QPainterPath getPath();
+    std::vector<QPixmap*> getBossPixmap();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 

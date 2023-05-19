@@ -2,7 +2,7 @@
 #include "cmath"
 #include <QDebug>
 
-Presenter::Presenter(QWidget *parent) : QWidget(parent), model(new Model()) {
+Presenter::Presenter(QWidget *parent) : QWidget(parent), model(new Model()), animation(new Animation) {
 }
 
 Model Presenter::getModel() {
@@ -74,19 +74,6 @@ void Presenter::collidesSecondEnemyBullet() const {
 }
 
 void Presenter::collidesHero() {
-    std::vector<QPixmap *> items = {new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0001.png"),
-                                    new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0002.png"),
-                                    new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0003.png"),
-                                    new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0004.png")};
-
-    if (model->hero_->childItems().size() == 1) {
-        qDeleteAll(model->hero_->childItems());
-    }
-
-    *items[attackTime % 2] = items[attackTime % 2]->scaled(135, 135);
-    auto hero = new QGraphicsPixmapItem(*items[attackTime % 2], model->hero_);
-    hero->setPos(-75, -70);
-
     if (model->hero_->getCoordinates().x() < 0) {
         model->hero_->setCoordinates({0, model->hero_->getCoordinates().y()});
     } else if (model->hero_->getCoordinates().x() > 1918) {
@@ -108,44 +95,14 @@ void Presenter::collidesHero() {
 }
 
 void Presenter::bossMoving() const {
-    std::vector<QPixmap *> items = {new QPixmap(":resources/boss/Idle/blimp_idle_0001.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0002.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0003.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0004.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0005.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0006.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0007.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0008.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0009.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0010.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0011.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0012.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0013.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0014.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0015.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0016.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0017.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0018.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0019.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0020.png"),
-                                    new QPixmap(":resources/boss/Idle/blimp_idle_0021.png"),};
-
-
-    if (model->boss_->childItems().size() == 1) {
-        qDeleteAll(model->boss_->childItems());
-    }
-
-    *items[attackTime % 21] = items[attackTime % 21]->scaled(500, 540);
-    auto boss = new QGraphicsPixmapItem(*items[attackTime % 21], model->boss_);
-    boss->setPos(-240, -240);
     if (attackTime / 25 == 0 || attackTime / 25 == 7) {
-        model->boss_->setDirection({0.8, -0.6});
+        model->boss_->setDirection({1, -1.75});
     } else if (attackTime / 25 == 1 || attackTime / 25 == 6) {
-        model->boss_->setDirection({-0.8, -0.6});
+        model->boss_->setDirection({-1, -1.75});
     } else if (attackTime / 25 == 2 || attackTime / 25 == 5) {
-        model->boss_->setDirection({-0.8, 0.6});
+        model->boss_->setDirection({-1, 1.75});
     } else {
-        model->boss_->setDirection({0.8, 0.6});
+        model->boss_->setDirection({1, 1.75});
     }
 }
 
@@ -240,9 +197,9 @@ void Presenter::replayModel() {
         i->setCoordinates({-10, -10});
         i->setDirection({0, 0});
     }
-    model->enemies_[0]->setCoordinates({3125, 100});
+    model->enemies_[0]->setCoordinates({2125, 100});
     model->enemies_[0]->setDirection({0, 0});
-    model->enemies_[1]->setCoordinates({2525, 100});
+    model->enemies_[1]->setCoordinates({2225, 100});
     model->enemies_[1]->setDirection({0, 0});
 
     model->bossBullet->setCoordinates({1520 - 250, 515});
@@ -259,4 +216,9 @@ void Presenter::replayModel() {
     model->boss_->setHp(1000);
 
     attackTime = 0;
+}
+
+void Presenter::updateAnimation() {
+    animation->bossAnimation(model->boss_, attackTime, model->boss_->getItems());
+    animation->heroAnimation(model->hero_, attackTime, model->hero_->getItems());
 }

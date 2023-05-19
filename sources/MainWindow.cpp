@@ -92,11 +92,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 void MainWindow::timerEvent(QTimerEvent *event) {
     if (event->timerId() == animation_timer_.timerId()) {
         presenter->Tick();
-        if (timerChange % 4 == 0) {
+        if (timerChange % 8 == 0) {
             presenter->getModel().heroBullet[attack]->setCoordinates(
                     {presenter->getModel().hero_->getCoordinates().x() + 70,
                      presenter->getModel().hero_->getCoordinates().y()});
-            presenter->getModel().heroBullet[attack]->setDirection({25, 0});
+            presenter->getModel().heroBullet[attack]->setDirection({30, 0});
 
             if (attack == 0) {
                 attack = 10;
@@ -151,12 +151,13 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     });
 
     presenter->getModel().updateModel();
+    presenter->updateAnimation();
 }
 
 void MainWindow::startGame() {
     menu->widgetStartGame();
 
     connect(menu, &GameWindows::Start, [this]() {
-        animation_timer_.start(26, this);
+        animation_timer_.start(20, this);
     });
 }

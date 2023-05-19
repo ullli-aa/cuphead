@@ -6,9 +6,9 @@ Enemies::Enemies() : Creatures(1) {
     auto enemy = new QGraphicsPixmapItem(*item, this);
     enemy->setPos(-110, -65);
 
-    coordinates_ = {2525, coordinateY};
-    setPos({2525, coordinateY});
-    speed_ = 13;
+    coordinates_ = {2125, coordinateY};
+    setPos({2125, coordinateY});
+    speed_ = 8;
     direction_ = {0, 0};
 }
 

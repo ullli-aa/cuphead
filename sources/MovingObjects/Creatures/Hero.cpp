@@ -2,13 +2,14 @@
 #include <QPainter>
 
 Hero::Hero() : Creatures(5) {
-    auto item = new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0001.png");
-    *item = item->scaled(135, 135);
-    auto hero = new QGraphicsPixmapItem(*item, this);
-    hero->setPos(-75, -70);
-    speed_ = 17;
+    speed_ = 10;
     coordinates_ = QPointF{130, 500};
     setPos(coordinates_);
+    items_ = {new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0001.png"),
+              new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0002.png"),
+              new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0003.png"),
+              new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0004.png")};
+
 }
 
 int Hero::getHp() const {

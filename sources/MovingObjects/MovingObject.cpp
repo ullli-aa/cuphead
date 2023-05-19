@@ -1,5 +1,7 @@
 #include "MovingObject.h"
 
+#include <utility>
+
 MovingObject::MovingObject(double sp, QPointF coord) {
     speed_ = sp;
     coordinates_ = coord;
@@ -30,6 +32,14 @@ void MovingObject::setDirection(QPointF direction) {
 
 QPointF MovingObject::getDirection() {
     return direction_;
+}
+
+std::vector<QPixmap *> MovingObject::getItems() {
+    return items_;
+}
+
+void MovingObject::setItems(std::vector<QPixmap *> items) {
+    items_ = std::move(items);
 }
 
 void MovingObject::move(double speed, QPointF direction) {

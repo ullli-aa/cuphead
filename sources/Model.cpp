@@ -16,12 +16,12 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
     for (int i = 0; i < 2; ++i) {
         enemies_.push_back(new Enemies);
     }
-    enemies_[0]->setCoordinates({3125, 100});
+    enemies_[0]->setCoordinates({2125, 100});
     enemies_[0]->setPos(enemies_[0]->getCoordinates());
-    enemies_[1]->setSpeed(17);
+    enemies_[1]->setSpeed(12);
 
     bossBullet->setCoordinates({boss_->getCoordinates().x() - 250, boss_->getCoordinates().y()});
-    bossBullet->setSpeed(6);
+    bossBullet->setSpeed(2);
     bossBullet->setWidth(180);
     bossBullet->setHeight(90);
     auto item = new QPixmap(":resources/boss/bossBullet/blimp_ha_0013.png");
@@ -30,7 +30,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
     bossBull->setPos(-90, -45);
 
     firstEnemyBullet->setCoordinates({enemies_[0]->getCoordinates()});
-    firstEnemyBullet->setSpeed(43);
+    firstEnemyBullet->setSpeed(22);
     firstEnemyBullet->setWidth(30);
     firstEnemyBullet->setHeight(30);
     firstEnemyBullet->setDamage(2);
@@ -40,7 +40,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
     frstBull->setPos(-27, -13);
 
     secondEnemyBullet->setCoordinates({enemies_[1]->getCoordinates()});
-    secondEnemyBullet->setSpeed(50);
+    secondEnemyBullet->setSpeed(24);
     secondEnemyBullet->setWidth(16);
     secondEnemyBullet->setHeight(16);
     secondEnemyBullet->setDamage(4);
@@ -53,7 +53,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
 void Model::updateModel() {
     for (auto &bull: heroBullet) {
         if (bull->getCoordinates().y() != 0) {
-            bull->move(4, bull->getDirection());
+            bull->move(1.6, bull->getDirection());
             bull->setAttackBegin(bull->getCoordinates());
             bull->setAttackEnd({bull->getCoordinates().x() + 10, bull->getCoordinates().y() + 10});
         }
