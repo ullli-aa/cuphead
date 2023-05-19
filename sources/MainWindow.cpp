@@ -76,6 +76,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_W) {
         presenter->getModel().hero_->setDirection({xd, -1});
     }
+    if(event->key() == Qt::Key_Shift) {
+        presenter->getModel().hero_->setSpeed(16);
+    }
 }
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {
@@ -86,6 +89,9 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     }
     if (event->key() == Qt::Key_W || event->key() == Qt::Key_S) {
         presenter->getModel().hero_->setDirection({xd, 0});
+    }
+    if (event->key() == Qt::Key_Shift) {
+        presenter->getModel().hero_->setSpeed(10);
     }
 }
 

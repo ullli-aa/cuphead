@@ -3,7 +3,6 @@
 #include <QApplication>
 #include <QLabel>
 #include <QPushButton>
-#include <QMessageBox>
 #include <QStatusBar>
 
 void GameWindows::widgetFinishGame(int n) {
@@ -46,31 +45,37 @@ void GameWindows::widgetFinishGame(int n) {
 }
 
 void GameWindows::widgetStartGame() {
-    this->setStyleSheet(
-            "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1,   stop:0 rgb(128,128,255), stop:1 rgb(128,255,208));");
-    auto *label = new QLabel("Hello my friend", this);
-    label->setFont(QFont("Courier New", 30));
-    label->move(705, 400);
-    label->setStyleSheet("background-color: transparent");
+    auto bckgrnd = new QPixmap(":resources/game_windows/menu/menu_background.png");
+    *bckgrnd = bckgrnd->scaled(1920, 1080);
+    auto *label = new QLabel(this);
+    label->setPixmap(*bckgrnd);
+    auto logo = new QPixmap(":resources/game_windows/menu/cuphead-logos.png");
+    *logo = logo->scaled(900, 250);
+    auto *label2 = new QLabel(this);
+    label2->setPixmap(*logo);
+    label2->move(10, 200);
+    label2->setStyleSheet("background-color: transparent;");
 
     auto *play = new QPushButton("Play", this);
-    play->resize(250, 80);
-    play->setFont(QFont("Courier New", 20));
-    play->move(835, 600);
-    play->setStyleSheet("background-color: rgb(128,160,255);");
+    play->resize(320, 80);
+    auto font = QFont("Courier New", 30);
+    font.setWeight(QFont::ExtraBold);
+    play->setFont(font);
+    play->move(315, 600);
+    play->setStyleSheet("background-color: white;");
 
-    auto *settings = new QPushButton("Settings", this);
-    settings->resize(250, 80);
-    settings->setFont(QFont("Courier New", 20));
-    settings->move(835, 700);
-    settings->setStyleSheet("background-color: rgb(128,160,255);");
+    auto *Guide = new QPushButton("Guide", this);
+    Guide->resize(320, 80);
+    Guide->setFont(font);
+    Guide->move(315, 700);
+    Guide->setStyleSheet("background-color: white;");
 
 
     auto *exit = new QPushButton("Exit", this);
-    exit->resize(250, 80);
-    exit->setFont(QFont("Courier New", 20));
-    exit->move(835, 800);
-    exit->setStyleSheet("background-color: rgb(128,160,255);");
+    exit->resize(320, 80);
+    exit->setFont(font);
+    exit->move(315, 800);
+    exit->setStyleSheet("background-color: white;");
 
 
     connect(play, &QPushButton::clicked, this, [&] {
@@ -78,7 +83,7 @@ void GameWindows::widgetStartGame() {
         emit Start();
     });
 
-    connect(settings, &QPushButton::clicked, this, [&] {
+    connect(Guide, &QPushButton::clicked, this, [&] {
         auto *widget = new QWidget;
         widget->setStyleSheet(
                 "background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0, y2:1,   stop:0 rgb(64,64,255), stop:1 rgb(128,128,128));");
@@ -201,12 +206,7 @@ void GameWindows::widgetStartGame() {
     });
 
     connect(exit, &QPushButton::clicked, this, [&] {
-//        auto answer = QMessageBox::question(this, "Question", "Are you sure?");
-//        QStatusBar statusBar;
-//        statusBar.showMessage(answer == QMessageBox::Yes ? "YES" : "NO");
-//        if (answer == QMessageBox::Yes) {
         qApp->exit();
-//        }
     });
     showFullScreen();
 }
