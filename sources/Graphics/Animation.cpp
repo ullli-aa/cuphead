@@ -1,4 +1,4 @@
-#include "Animation.h"
+#include "Graphics/Animation.h"
 #include <QDebug>
 
 void Animation::bossAnimation(Boss * boss, int time, std::vector<QPixmap*> pic) {

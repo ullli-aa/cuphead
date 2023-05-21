@@ -1,6 +1,6 @@
 #pragma once
 
-#include "QWidget.h"
+#include "qwidget.h"
 #include <QGraphicsScene>
 
 class GameWindows : public QWidget {
@@ -16,7 +16,10 @@ public:
 
     void widgetGuide();
 
+    void widgetPause();
+
 signals:
     void Start();
     void Replay();
+    void Continue();
 };

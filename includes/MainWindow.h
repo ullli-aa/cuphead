@@ -8,7 +8,7 @@
 #include <QPushButton>
 #include <QLabel>
 #include "Presenter.h"
-#include "GameWindows.h"
+#include "Graphics/GameWindows.h"
 #include <QPainter>
 #include <QImage>
 #include <QMouseEvent>

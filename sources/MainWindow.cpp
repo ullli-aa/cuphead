@@ -76,7 +76,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_W) {
         presenter->getModel().hero_->setDirection({xd, -1});
     }
-    if(event->key() == Qt::Key_Shift) {
+    if (event->key() == Qt::Key_Shift) {
         presenter->getModel().hero_->setSpeed(16);
     }
 }
@@ -92,6 +92,10 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     }
     if (event->key() == Qt::Key_Shift) {
         presenter->getModel().hero_->setSpeed(10);
+    }
+    if(event->key() == Qt::Key_Escape) {
+        animation_timer_.stop();
+        menu->widgetPause();
     }
 }
 
@@ -150,19 +154,23 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         menu = new GameWindows(this, scene_);
         menu->widgetFinishGame(presenter->finishGame());
     }
-    connect(menu, &GameWindows::Replay, [this](){
+    connect(menu, &GameWindows::Replay, [this]() {
         presenter->replayModel();
         animation_timer_.start(20, this);
         timerChange = 0;
     });
 
-    connect(menu, &GameWindows::Start, [this] () {
+    connect(menu, &GameWindows::Start, [this]() {
         presenter->replayModel();
         animation_timer_.start(20, this);
         timerChange = 0;
     });
 
-    if(presenter->getAnimationTime() == 84 * 3) {
+    connect(menu, &GameWindows::Continue, [this]() {
+        animation_timer_.start(20, this);
+    });
+
+    if (presenter->getAnimationTime() == 84 * 3) {
         presenter->setAnimationTime(0);
     }
     presenter->setAnimationTime(presenter->getAnimationTime() + 1);

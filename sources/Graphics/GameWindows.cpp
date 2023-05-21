@@ -260,5 +260,78 @@ void GameWindows::widgetGuide() {
     widget->showFullScreen();
 }
 
+void GameWindows::widgetPause() {
+    auto* widget = new QWidget(this);
+
+    auto bckgrnd = new QPixmap(":resources/game_windows/pause/pause_background.png");
+    *bckgrnd = bckgrnd->scaled(600, 800);
+    auto *label_bckgrnd = new QLabel(widget);
+    label_bckgrnd->setPixmap(*bckgrnd);
+
+    auto hilda_logo = new QPixmap(":resources/game_windows/pause/hilda_logo.png");
+    *hilda_logo = hilda_logo->scaled(200, 200);
+    auto *label_hilda = new QLabel(widget);
+    label_hilda->setPixmap(*hilda_logo);
+    label_hilda->move(200, -6);
+
+    auto c_shadowEffect = new QGraphicsDropShadowEffect(widget);
+    c_shadowEffect->setColor(QColor(0, 0, 0, 190));
+    c_shadowEffect->setXOffset(4);
+    c_shadowEffect->setYOffset(4);
+    c_shadowEffect->setBlurRadius(15);
+
+    auto e_shadowEffect = new QGraphicsDropShadowEffect(widget);
+    e_shadowEffect->setColor(QColor(0, 0, 0, 190));
+    e_shadowEffect->setXOffset(4);
+    e_shadowEffect->setYOffset(4);
+    e_shadowEffect->setBlurRadius(15);
+
+    auto m_shadowEffect = new QGraphicsDropShadowEffect(widget);
+    m_shadowEffect->setColor(QColor(0, 0, 0, 190));
+    m_shadowEffect->setXOffset(4);
+    m_shadowEffect->setYOffset(4);
+    m_shadowEffect->setBlurRadius(15);
+
+    auto *cont = new QPushButton("Continue", widget);
+    cont->resize(300, 100);
+    cont->setGraphicsEffect(c_shadowEffect);
+    cont->setFont(QFont("Courier New", 27));
+    cont->setStyleSheet("background-color: transparent");
+    cont->move(145, 300);
+
+    auto *menu = new QPushButton("Menu", widget);
+    menu->resize(300, 100);
+    menu->setGraphicsEffect(m_shadowEffect);
+    menu->setFont(QFont("Courier New", 27));
+    menu->setStyleSheet("background-color: transparent");
+    menu->move(145, 425);
+
+    auto *exit = new QPushButton("Exit", widget);
+    exit->resize(300, 100);
+    exit->setGraphicsEffect(e_shadowEffect);
+    exit->setFont(QFont("Courier New", 27));
+    exit->setStyleSheet("background-color: transparent");
+    exit->move(145, 550);
+
+    connect(cont, &QPushButton::clicked, widget, [&] {
+        close();
+        emit Continue();
+    });
+
+    connect(menu, &QPushButton::clicked, widget, [&] {
+        close();
+        widgetStartGame();
+    });
+
+    connect(exit, &QPushButton::clicked, widget, [&] {
+        qApp->exit();
+    });
+
+    showFullScreen();
+    widget->setFixedSize(600, 800);
+    this->resize(600, 800);
+    this->move(660, 140);
+}
+
 GameWindows::GameWindows(QWidget *parent, QGraphicsScene *scene) : scene_(scene) {}
 
