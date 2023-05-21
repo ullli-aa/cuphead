@@ -2,7 +2,7 @@
 #include <QPainter>
 
 Hero::Hero() : Creatures(5) {
-    speed_ = 10;
+    speed_ = 14;
     coordinates_ = QPointF{130, 500};
     setPos(coordinates_);
     items_ = {new QPixmap(":resources/hero/Idle_straight/mugman_plane_idle_straight_0001.png"),

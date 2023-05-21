@@ -85,7 +85,7 @@ void GameWindows::widgetFinishGame(int n) {
 }
 
 void GameWindows::widgetStartGame() {
-    auto* menu_widget = new QWidget(this);
+    auto *menu_widget = new QWidget(this);
     this->resize(1920, 1080);
     this->move(10, 0);
     auto bckgrnd = new QPixmap(":resources/game_windows/menu/menu_background.png");
@@ -99,31 +99,41 @@ void GameWindows::widgetStartGame() {
     label2->move(10, 200);
     label2->setStyleSheet("background-color: transparent;");
 
-    auto *play = new QPushButton("Play", menu_widget);
-    play->resize(320, 80);
     auto font = QFont("Courier New", 30);
     font.setWeight(QFont::ExtraBold);
+
+    auto *play = new QPushButton("Play", menu_widget);
+    play->resize(320, 80);
     play->setFont(font);
-    play->move(315, 600);
+    play->move(315, 550);
     play->setStyleSheet("background-color: white;");
+
+    auto *settings = new QPushButton("Settings", menu_widget);
+    settings->resize(320, 80);
+    settings->setFont(font);
+    settings->move(315, 650);
+    settings->setStyleSheet("background-color: white;");
 
     auto *Guide = new QPushButton("Guide", menu_widget);
     Guide->resize(320, 80);
     Guide->setFont(font);
-    Guide->move(315, 700);
+    Guide->move(315, 750);
     Guide->setStyleSheet("background-color: white;");
-
 
     auto *exit = new QPushButton("Exit", menu_widget);
     exit->resize(320, 80);
     exit->setFont(font);
-    exit->move(315, 800);
+    exit->move(315, 850);
     exit->setStyleSheet("background-color: white;");
-
 
     connect(play, &QPushButton::clicked, menu_widget, [&] {
         close();
         emit Start();
+    });
+
+    connect(settings, &QPushButton::clicked, menu_widget, [&] {
+        GameWindows::widgetSettings();
+
     });
 
     connect(Guide, &QPushButton::clicked, menu_widget, [&] {
@@ -260,8 +270,65 @@ void GameWindows::widgetGuide() {
     widget->showFullScreen();
 }
 
+void GameWindows::widgetSettings() {
+    auto *widget = new QWidget;
+
+    auto bckgrnd = new QPixmap(":resources/game_windows/menu/Guide/background.png");
+    *bckgrnd = bckgrnd->scaled(1920, 1080);
+    auto *label = new QLabel(widget);
+    label->setPixmap(*bckgrnd);
+
+    auto font = QFont("Courier New", 30);
+    font.setWeight(QFont::DemiBold);
+
+    auto *chooseBckgrnd = new QLabel("Choose your background", widget);
+    chooseBckgrnd->setFont(font);
+    chooseBckgrnd->move(120, 150);
+    chooseBckgrnd->setStyleSheet("background-color: transparent");
+
+    auto *firstB = new QPushButton("1", widget);
+    firstB->resize(540, 400);
+    firstB->move(120, 230);
+
+    auto *secondB = new QPushButton("2", widget);
+    secondB->resize(540, 400);
+    secondB->move(690, 230);
+
+    auto *thirdB = new QPushButton("3", widget);
+    thirdB->resize(540, 400);
+    thirdB->move(1260, 230);
+
+    connect(firstB, &QPushButton::pressed, widget, [&] {
+        emit First();
+    });
+
+//    connect(secondB, &QPushButton::clicked, widget, [&] {
+//        background->load(":resources/background2.png");
+//        scene->setBackgroundBrush(*background);
+//    });
+//
+//    connect(thirdB, &QPushButton::clicked, widget, [&] {
+//        background->load(":resources/background3.png");
+//        scene->setBackgroundBrush(*background);
+//    });
+
+    auto *back = new QPushButton("<< back <<", widget);
+    back->setFont(QFont("Courier New", 20));
+    back->resize(240, 50);
+    back->move(140, 50);
+    back->setStyleSheet("background-color: transparent");
+
+    connect(back, &QPushButton::clicked, [widget]() {
+        widget->deleteLater();
+    });
+
+    widget->resize(1920, 1080);
+    this->resize(1920, 1080);
+    widget->showFullScreen();
+}
+
 void GameWindows::widgetPause() {
-    auto* widget = new QWidget(this);
+    auto *widget = new QWidget(this);
 
     auto bckgrnd = new QPixmap(":resources/game_windows/pause/pause_background.png");
     *bckgrnd = bckgrnd->scaled(600, 800);
@@ -333,5 +400,5 @@ void GameWindows::widgetPause() {
     this->move(660, 140);
 }
 
-GameWindows::GameWindows(QWidget *parent, QGraphicsScene *scene) : scene_(scene) {}
+GameWindows::GameWindows(QWidget *parent, QGraphicsScene *scene){}
 

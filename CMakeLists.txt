@@ -12,6 +12,8 @@ find_package(Qt5 COMPONENTS
         Core
         Gui
         Widgets
+        REQUIRED
+        Multimedia
         REQUIRED)
 
 file(GLOB_RECURSE SOURCES sources/*.cpp)
@@ -24,4 +26,5 @@ target_link_libraries(game_spaceBattle
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets
+        Qt5::Multimedia
         )

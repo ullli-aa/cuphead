@@ -13,6 +13,8 @@
 #include <QImage>
 #include <QMouseEvent>
 #include <QBasicTimer>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class MainWindow : public QMainWindow {
 public:
@@ -30,10 +32,13 @@ public:
 
     void startGame();
 private:
-    QWidget* widget_ = nullptr;
-
     QGraphicsScene *scene_;
     QGraphicsView *view_;
+
+    QPixmap* sceneBckgrnd;
+
+    QMediaPlayer * m_player;
+    QMediaPlaylist * m_playlist;
 
     Presenter *presenter;
     GameWindows *menu;

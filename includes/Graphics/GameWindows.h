@@ -5,8 +5,6 @@
 
 class GameWindows : public QWidget {
 Q_OBJECT;
-private:
-    QGraphicsScene *scene_;
 public:
     GameWindows(QWidget *parent, QGraphicsScene *);
 
@@ -16,10 +14,15 @@ public:
 
     void widgetGuide();
 
+    void widgetSettings();
+
     void widgetPause();
 
 signals:
     void Start();
     void Replay();
     void Continue();
+    void First();
+    void Second();
+    void Third();
 };

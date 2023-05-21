@@ -8,7 +8,9 @@ MainWindow::MainWindow(QWidget *parent)
           scene_(new QGraphicsScene(this)),
           view_(new QGraphicsView(this)),
           presenter(new Presenter(this)),
-          menu(new GameWindows(this, scene_)) {
+          menu(new GameWindows(this, scene_)),
+          m_player(new QMediaPlayer(this)),
+          m_playlist(new QMediaPlaylist(m_player)) {
     resize(maximumWidth(), maximumHeight());
     scene_->setSceneRect(1, 1, 1918, 1078);
     view_->setFixedSize(1920, 1080);
@@ -18,13 +20,15 @@ MainWindow::MainWindow(QWidget *parent)
     view_->viewport()->installEventFilter(this);
     showFullScreen();
 
+    m_player->setPlaylist(m_playlist);
+    m_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
     startGame();
 }
 
 void MainWindow::setUpScene() {
-    auto bckgrnd = new QPixmap(":resources/background.png");
-    *bckgrnd = bckgrnd->scaled(1920, 1080);
-    scene_->addPixmap(*bckgrnd);
+    sceneBckgrnd = new QPixmap(":resources/background.png");
+    *sceneBckgrnd = sceneBckgrnd->scaled(1920, 1080);
+    scene_->setBackgroundBrush(*sceneBckgrnd);
 
     scene_->addItem(presenter->getModel().hero_);
     for (int i = 0; i < 10; ++i) {
@@ -93,7 +97,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_Shift) {
         presenter->getModel().hero_->setSpeed(10);
     }
-    if(event->key() == Qt::Key_Escape) {
+    if (event->key() == Qt::Key_Escape) {
         animation_timer_.stop();
         menu->widgetPause();
     }
@@ -166,6 +170,26 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         timerChange = 0;
     });
 
+    connect(menu, &GameWindows::First, this, [&] {
+        qDebug() << 1;
+
+        delete sceneBckgrnd;
+        sceneBckgrnd = new QPixmap(":resources/background.png");
+    });
+
+    connect(menu, &GameWindows::Second, [this]() {
+        qDebug() << 1;
+        delete sceneBckgrnd;
+        sceneBckgrnd = new QPixmap(":resources/background2.png");
+    });
+
+    connect(menu, &GameWindows::Third, [this]() {
+        qDebug() << 1;
+
+        delete sceneBckgrnd;
+        sceneBckgrnd = new QPixmap(":resources/background3.png");
+    });
+
     connect(menu, &GameWindows::Continue, [this]() {
         animation_timer_.start(20, this);
     });
@@ -180,8 +204,13 @@ void MainWindow::timerEvent(QTimerEvent *event) {
 
 void MainWindow::startGame() {
     menu->widgetStartGame();
+//    m_playlist->addMedia(QUrl("qrc:/resources/sounds/Don't_Deal_With _The_Devil.wav"));
+//    m_player->play();
 
     connect(menu, &GameWindows::Start, [this]() {
+        m_playlist->clear();
+        m_playlist->addMedia(QUrl("qrc:/resources/sounds/Hilda_berg.wav"));
+        m_player->play();
         animation_timer_.start(20, this);
     });
 }

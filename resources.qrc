@@ -66,6 +66,12 @@
         <file>resources/boss/bossBullet/blimp_ha_0013.png</file>
         <file>resources/Enemy_purple/bullet/blimp_enemy_bullet_a_0001.png</file>
         <file>resources/hero/chalice_shmup_3way_bullet_b_0001.png</file>
+
         <file>resources/background.png</file>
+        <file>resources/background2.png</file>
+        <file>resources/background3.png</file>
+
+        <file>resources/sounds/Hilda_berg.wav</file>
+        <file>resources/sounds/Don't_Deal_With _The_Devil.wav</file>
     </qresource>
 </RCC>
