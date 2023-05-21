@@ -14,6 +14,8 @@ public:
 
     void widgetStartGame();
 
+    void widgetGuide();
+
 signals:
     void Start();
     void Replay();

@@ -16,7 +16,7 @@ void Presenter::Tick() {
     }
 }
 
-int Presenter::getAnimationTime() {
+int Presenter::getAnimationTime() const {
     return animationTime;
 }
 
@@ -25,7 +25,7 @@ void Presenter::setAnimationTime(int n) {
 }
 
 void Presenter::collidesBossBullet() const {
-    if (model->bossBullet->x() + 80 < 0) {
+    if (model->bossBullet->x() + 800 < 0) {
         model->bossBullet->setCoordinates(
                 {model->boss_->getCoordinates().x() - 250, model->boss_->getCoordinates().y()});
     }
@@ -219,7 +219,7 @@ void Presenter::replayModel() {
 }
 
 void Presenter::updateAnimation() {
-    animation->bossAnimation(model->boss_, animationTime / 3, model->boss_->getItems());
+    animation->bossAnimation(model->boss_, animationTime / 2, model->boss_->getItems());
     animation->heroAnimation(model->hero_, animationTime, model->hero_->getItems());
 
     if (attackTime > 89) {

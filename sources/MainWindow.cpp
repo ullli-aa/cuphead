@@ -155,6 +155,13 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         animation_timer_.start(20, this);
         timerChange = 0;
     });
+
+    connect(menu, &GameWindows::Start, [this] () {
+        presenter->replayModel();
+        animation_timer_.start(20, this);
+        timerChange = 0;
+    });
+
     if(presenter->getAnimationTime() == 84 * 3) {
         presenter->setAnimationTime(0);
     }

@@ -21,7 +21,7 @@ Model::Model() : hero_(new Hero), boss_(new Boss), bossBullet(new Bullet), first
     enemies_[1]->setSpeed(12);
 
     bossBullet->setCoordinates({boss_->getCoordinates().x() - 250, boss_->getCoordinates().y()});
-    bossBullet->setSpeed(2);
+    bossBullet->setSpeed(4);
     bossBullet->setWidth(180);
     bossBullet->setHeight(90);
     auto item = new QPixmap(":resources/boss/bossBullet/blimp_ha_0013.png");

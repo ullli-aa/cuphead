@@ -14,7 +14,7 @@ public:
 
     Model getModel();
 
-    int getAnimationTime();
+    int getAnimationTime() const;
 
     void setAnimationTime(int);
 

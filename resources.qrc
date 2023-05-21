@@ -56,6 +56,10 @@
         <file>resources/game_windows/menu/menu_background.png</file>
         <file>resources/game_windows/menu/cuphead-logos.png</file>
 
+        <file>resources/game_windows/menu/Guide/background.png</file>
+
+        <file>resources/game_windows/finish/finish_background.png</file>
+
         <file>resources/boss/bossBullet/blimp_ha_0013.png</file>
         <file>resources/Enemy_purple/bullet/blimp_enemy_bullet_a_0001.png</file>
         <file>resources/hero/chalice_shmup_3way_bullet_b_0001.png</file>
