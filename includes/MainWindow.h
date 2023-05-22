@@ -13,8 +13,7 @@
 #include <QImage>
 #include <QMouseEvent>
 #include <QBasicTimer>
-#include <QMediaPlayer>
-#include <QMediaPlaylist>
+#include <QtMultimedia>
 
 class MainWindow : public QMainWindow {
 public:
@@ -35,7 +34,7 @@ private:
     QGraphicsScene *scene_;
     QGraphicsView *view_;
 
-    QPixmap* sceneBckgrnd;
+    std::vector<QPixmap*> sceneBckgrnd;
 
     QMediaPlayer * m_player;
     QMediaPlaylist * m_playlist;

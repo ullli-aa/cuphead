@@ -271,7 +271,7 @@ void GameWindows::widgetGuide() {
 }
 
 void GameWindows::widgetSettings() {
-    auto *widget = new QWidget;
+    auto *widget = new QWidget(this);
 
     auto bckgrnd = new QPixmap(":resources/game_windows/menu/Guide/background.png");
     *bckgrnd = bckgrnd->scaled(1920, 1080);
@@ -286,31 +286,41 @@ void GameWindows::widgetSettings() {
     chooseBckgrnd->move(120, 150);
     chooseBckgrnd->setStyleSheet("background-color: transparent");
 
-    auto *firstB = new QPushButton("1", widget);
+    auto* firstB = new QPushButton("1", widget);
+    QPixmap pixmap1(":resources/background.png");
+    QIcon ButtonIcon1(pixmap1);
+    firstB->setIcon(ButtonIcon1);
+    firstB->setIconSize({650, 700});
     firstB->resize(540, 400);
     firstB->move(120, 230);
 
     auto *secondB = new QPushButton("2", widget);
+    QPixmap pixmap2(":resources/background2.png");
+    QIcon ButtonIcon2(pixmap2);
+    secondB->setIcon(ButtonIcon2);
+    secondB->setIconSize({650, 700});
     secondB->resize(540, 400);
     secondB->move(690, 230);
 
     auto *thirdB = new QPushButton("3", widget);
+    QPixmap pixmap3(":resources/background3.png");
+    QIcon ButtonIcon3(pixmap3);
+    thirdB->setIcon(ButtonIcon3);
+    thirdB->setIconSize({650, 700});
     thirdB->resize(540, 400);
     thirdB->move(1260, 230);
 
-    connect(firstB, &QPushButton::pressed, widget, [&] {
+    connect(firstB, &QPushButton::clicked, this, [this] {
         emit First();
     });
 
-//    connect(secondB, &QPushButton::clicked, widget, [&] {
-//        background->load(":resources/background2.png");
-//        scene->setBackgroundBrush(*background);
-//    });
-//
-//    connect(thirdB, &QPushButton::clicked, widget, [&] {
-//        background->load(":resources/background3.png");
-//        scene->setBackgroundBrush(*background);
-//    });
+    connect(secondB, &QPushButton::clicked, widget, [&] {
+        emit Second();
+    });
+
+    connect(thirdB, &QPushButton::clicked, widget, [&] {
+        emit Third();
+    });
 
     auto *back = new QPushButton("<< back <<", widget);
     back->setFont(QFont("Courier New", 20));
