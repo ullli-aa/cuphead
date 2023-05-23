@@ -1,12 +1,23 @@
 #pragma once
 
 #include "qwidget.h"
-#include <QGraphicsScene>
+#include <QApplication>
+#include <QLabel>
+#include <QPushButton>
+#include <QGraphicsDropShadowEffect>
+#include <QCheckBox>
+#include <QMediaPlayer>
+#include <QMediaPlaylist>
 
 class GameWindows : public QWidget {
 Q_OBJECT;
+private:
+    QWidget* settingsWidget;
+    bool check = false;
+    QMediaPlayer * m_player;
+    QMediaPlaylist * m_playlist;
 public:
-    GameWindows(QWidget *parent, QGraphicsScene *);
+    GameWindows(QWidget *parent);
 
     void widgetFinishGame(int);
 
@@ -22,7 +33,9 @@ signals:
     void Start();
     void Replay();
     void Continue();
+    void Music();
     void First();
     void Second();
     void Third();
+    void Menu();
 };

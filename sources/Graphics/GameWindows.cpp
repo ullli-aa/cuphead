@@ -1,9 +1,5 @@
 #include "GameWindows.h"
 #include <QDebug>
-#include <QApplication>
-#include <QLabel>
-#include <QPushButton>
-#include <QGraphicsDropShadowEffect>
 
 void GameWindows::widgetFinishGame(int n) {
     if (n != 0) {
@@ -85,6 +81,12 @@ void GameWindows::widgetFinishGame(int n) {
 }
 
 void GameWindows::widgetStartGame() {
+    if (check) {
+        m_player->stop();
+    } else {
+        m_player->play();
+    }
+
     auto *menu_widget = new QWidget(this);
     this->resize(1920, 1080);
     this->move(10, 0);
@@ -129,11 +131,11 @@ void GameWindows::widgetStartGame() {
     connect(play, &QPushButton::clicked, menu_widget, [&] {
         close();
         emit Start();
+        m_player->stop();
     });
 
     connect(settings, &QPushButton::clicked, menu_widget, [&] {
         GameWindows::widgetSettings();
-
     });
 
     connect(Guide, &QPushButton::clicked, menu_widget, [&] {
@@ -271,22 +273,20 @@ void GameWindows::widgetGuide() {
 }
 
 void GameWindows::widgetSettings() {
-    auto *widget = new QWidget(this);
-
     auto bckgrnd = new QPixmap(":resources/game_windows/menu/Guide/background.png");
     *bckgrnd = bckgrnd->scaled(1920, 1080);
-    auto *label = new QLabel(widget);
+    auto *label = new QLabel(settingsWidget);
     label->setPixmap(*bckgrnd);
 
     auto font = QFont("Courier New", 30);
     font.setWeight(QFont::DemiBold);
 
-    auto *chooseBckgrnd = new QLabel("Choose your background", widget);
+    auto *chooseBckgrnd = new QLabel("Choose your background", settingsWidget);
     chooseBckgrnd->setFont(font);
     chooseBckgrnd->move(120, 150);
     chooseBckgrnd->setStyleSheet("background-color: transparent");
 
-    auto* firstB = new QPushButton("1", widget);
+    auto *firstB = new QPushButton("1", settingsWidget);
     QPixmap pixmap1(":resources/background.png");
     QIcon ButtonIcon1(pixmap1);
     firstB->setIcon(ButtonIcon1);
@@ -294,7 +294,7 @@ void GameWindows::widgetSettings() {
     firstB->resize(540, 400);
     firstB->move(120, 230);
 
-    auto *secondB = new QPushButton("2", widget);
+    auto *secondB = new QPushButton("2", settingsWidget);
     QPixmap pixmap2(":resources/background2.png");
     QIcon ButtonIcon2(pixmap2);
     secondB->setIcon(ButtonIcon2);
@@ -302,7 +302,7 @@ void GameWindows::widgetSettings() {
     secondB->resize(540, 400);
     secondB->move(690, 230);
 
-    auto *thirdB = new QPushButton("3", widget);
+    auto *thirdB = new QPushButton("3", settingsWidget);
     QPixmap pixmap3(":resources/background3.png");
     QIcon ButtonIcon3(pixmap3);
     thirdB->setIcon(ButtonIcon3);
@@ -310,31 +310,49 @@ void GameWindows::widgetSettings() {
     thirdB->resize(540, 400);
     thirdB->move(1260, 230);
 
+    auto chkButton = new QCheckBox("Stop music", settingsWidget);
+
+    chkButton->setStyleSheet("""QCheckBox::indicator { width: 30px; height: 30px;}""");
+    chkButton->setFont(font);
+    chkButton->move(120, 730);
+
+    chkButton->setChecked(check);
+
     connect(firstB, &QPushButton::clicked, this, [this] {
         emit First();
     });
 
-    connect(secondB, &QPushButton::clicked, widget, [&] {
+    connect(secondB, &QPushButton::clicked, settingsWidget, [&] {
         emit Second();
     });
 
-    connect(thirdB, &QPushButton::clicked, widget, [&] {
+    connect(thirdB, &QPushButton::clicked, settingsWidget, [&] {
         emit Third();
     });
 
-    auto *back = new QPushButton("<< back <<", widget);
+    connect(chkButton, &QCheckBox::clicked, settingsWidget, [&] {
+        if (!check) {
+            check = true;
+            m_player->stop();
+        } else {
+            check = false;
+            m_player->play();
+        }
+        emit Music();
+    });
+
+    auto *back = new QPushButton("<< back <<", settingsWidget);
     back->setFont(QFont("Courier New", 20));
     back->resize(240, 50);
     back->move(140, 50);
     back->setStyleSheet("background-color: transparent");
 
-    connect(back, &QPushButton::clicked, [widget]() {
-        widget->deleteLater();
+    connect(back, &QPushButton::clicked, settingsWidget, [&] {
+        settingsWidget->close();
     });
-
-    widget->resize(1920, 1080);
-    this->resize(1920, 1080);
-    widget->showFullScreen();
+    chkButton = chkButton;
+    settingsWidget->resize(1920, 1080);
+    settingsWidget->showFullScreen();
 }
 
 void GameWindows::widgetPause() {
@@ -398,6 +416,7 @@ void GameWindows::widgetPause() {
     connect(menu, &QPushButton::clicked, widget, [&] {
         close();
         widgetStartGame();
+        emit Menu();
     });
 
     connect(exit, &QPushButton::clicked, widget, [&] {
@@ -410,5 +429,13 @@ void GameWindows::widgetPause() {
     this->move(660, 140);
 }
 
-GameWindows::GameWindows(QWidget *parent, QGraphicsScene *scene){}
+GameWindows::GameWindows(QWidget *parent) :
+        m_player(new QMediaPlayer(this)),
+        m_playlist(new QMediaPlaylist(m_player)) {
+    settingsWidget = new QWidget();
+
+    m_player->setPlaylist(m_playlist);
+    m_playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    m_playlist->addMedia(QUrl("qrc:/resources/sounds/Don't_Deal_With _The_Devil.wav"));
+}
 

@@ -8,7 +8,7 @@ MainWindow::MainWindow(QWidget *parent)
           scene_(new QGraphicsScene(this)),
           view_(new QGraphicsView(this)),
           presenter(new Presenter(this)),
-          menu(new GameWindows(this, scene_)),
+          menu(new GameWindows(this)),
           m_player(new QMediaPlayer(this)),
           m_playlist(new QMediaPlaylist(m_player)) {
     resize(maximumWidth(), maximumHeight());
@@ -26,6 +26,8 @@ MainWindow::MainWindow(QWidget *parent)
     showFullScreen();
 
     m_player->setPlaylist(m_playlist);
+    m_playlist->setPlaybackMode(QMediaPlaylist::Loop);
+    m_playlist->addMedia(QUrl("qrc:/resources/sounds/Hilda_berg.wav"));
 
     startGame();
 }
@@ -49,13 +51,15 @@ void MainWindow::setUpScene() {
     scene_->addItem(presenter->getModel().secondEnemyBullet);
 
     bossHp = scene_->addText(QString::number(presenter->getModel().boss_->getHp()));
-    bossHp->setDefaultTextColor(QColor(Qt::darkRed));
-    bossHp->setFont(QFont("Courier New", 20));
+    bossHp->setDefaultTextColor(QColor(Qt::black));
+    auto font = QFont("Courier New", 20);
+    font.setWeight(QFont::ExtraBold);
+    bossHp->setFont(font);
     bossHp->setPos(25, 25);
 
     heroHealth = scene_->addText(QString::number(presenter->getModel().hero_->getHealth()));
     heroHealth->setDefaultTextColor(QColor(Qt::darkRed));
-    heroHealth->setFont(QFont("Courier New", 20));
+    heroHealth->setFont(font);
     heroHealth->setPos(25, 60);
 }
 
@@ -164,27 +168,27 @@ void MainWindow::timerEvent(QTimerEvent *event) {
 
     if (presenter->finishGame() != 0) {
         animation_timer_.stop();
-        menu = new GameWindows(this, scene_);
+        menu = new GameWindows(this);
         menu->widgetFinishGame(presenter->finishGame());
     }
 
     connect(menu, &GameWindows::Replay, [this]() {
-        m_player->stop();
-        m_playlist->clear();
-//        m_player->setMedia(QUrl("qrc:/resources/sounds/Hilda_berg.wav"));
-        m_playlist->addMedia(*soundManager.hilda);
-        m_player->play();
+        if (chkButton) {
+            m_player->stop();
+        } else {
+            m_player->play();
+        }
         presenter->replayModel();
         animation_timer_.start(20, this);
         timerChange = 0;
     });
 
     connect(menu, &GameWindows::Start, [this]() {
-        m_player->stop();
-        m_playlist->clear();
-//        m_player->setMedia(QUrl("qrc:/resources/sounds/Hilda_berg.wav"));
-        m_playlist->addMedia(*soundManager.hilda);
-        m_player->play();
+        if (chkButton) {
+            m_player->stop();
+        } else {
+            m_player->play();
+        }
         animation_timer_.stop();
         presenter->replayModel();
         animation_timer_.start(20, this);
@@ -206,13 +210,30 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         scene_->setBackgroundBrush(*sceneBckgrnd[2]);
     });
 
+    connect(menu, &GameWindows::Music, this, [&] {
+        if (!chkButton) {
+            chkButton = true;
+        } else {
+            chkButton = false;
+        }
+    });
+
     connect(menu, &GameWindows::Continue, [this]() {
         animation_timer_.start(20, this);
+    });
+
+    connect(menu, &GameWindows::Menu, this, [&] {
+        m_player->stop();
     });
 
     if (presenter->getAnimationTime() == 84 * 3) {
         presenter->setAnimationTime(0);
     }
+
+    if (chkButton) {
+        m_player->stop();
+    }
+
     presenter->setAnimationTime(presenter->getAnimationTime() + 1);
     presenter->getModel().updateModel();
     presenter->updateAnimation();
@@ -220,17 +241,9 @@ void MainWindow::timerEvent(QTimerEvent *event) {
 
 void MainWindow::startGame() {
     animation_timer_.stop();
-//    m_playlist->addMedia(QUrl("qrc:/resources/sounds/Don't_Deal_With _The_Devil.wav"));
-    m_playlist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
-    m_playlist->addMedia(*soundManager.devil);
-    m_player->play();
 
     menu->widgetStartGame();
     connect(menu, &GameWindows::Start, [this]() {
-        m_player->stop();
-        m_playlist->clear();
-//        m_player->setMedia(QUrl("qrc:/resources/sounds/Hilda_berg.wav"));
-        m_playlist->addMedia(*soundManager.hilda);
         m_player->play();
         animation_timer_.start(20, this);
     });
@@ -247,5 +260,13 @@ void MainWindow::startGame() {
     connect(menu, &GameWindows::Third, this, [&] {
         *sceneBckgrnd[2] = sceneBckgrnd[2]->scaled(1920, 1080);
         scene_->setBackgroundBrush(*sceneBckgrnd[2]);
+    });
+
+    connect(menu, &GameWindows::Music, this, [&] {
+        if (!chkButton) {
+            chkButton = true;
+        } else {
+            chkButton = false;
+        }
     });
 }

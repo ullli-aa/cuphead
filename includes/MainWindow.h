@@ -44,6 +44,8 @@ private:
 
     QSet<int> pressedKeys;
 
+    bool chkButton = false;
+
     int attack = 9;
     QBasicTimer animation_timer_;
     int timerChange = 0;
