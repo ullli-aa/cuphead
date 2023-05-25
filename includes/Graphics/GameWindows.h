@@ -29,6 +29,8 @@ public:
 
     void widgetPause();
 
+    bool getCheck() const;
+
 signals:
     void Start();
     void Replay();
@@ -38,4 +40,5 @@ signals:
     void Second();
     void Third();
     void Menu();
+    void Exit();
 };

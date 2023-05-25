@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.24)
-project(game_spaceBattle)
+project(cuphead)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTOMOC ON)
@@ -12,17 +12,16 @@ find_package(Qt5 COMPONENTS
         Core
         Gui
         Widgets
-#        REQUIRED
         Multimedia
         REQUIRED)
 
 file(GLOB_RECURSE SOURCES sources/*.cpp)
 
-add_executable(game_spaceBattle ${SOURCES} resources.qrc includes/Graphics/GameWindows.h)
+add_executable(cuphead ${SOURCES} resources.qrc includes/Graphics/GameWindows.h)
 
-INCLUDE_DIRECTORIES(game_spaceBattle includes includes/MovingObjects includes/MovingObjects/Creatures includes/Graphics)
+INCLUDE_DIRECTORIES(cuphead includes includes/MovingObjects includes/MovingObjects/Creatures includes/Graphics)
 
-target_link_libraries(game_spaceBattle
+target_link_libraries(cuphead
         Qt5::Core
         Qt5::Gui
         Qt5::Widgets

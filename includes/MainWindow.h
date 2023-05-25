@@ -4,13 +4,8 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QTimerEvent>
-#include <QWidget>
-#include <QPushButton>
-#include <QLabel>
 #include "Presenter.h"
 #include "Graphics/GameWindows.h"
-#include <QPainter>
-#include <QImage>
 #include <QMouseEvent>
 #include <QBasicTimer>
 #include <QtMultimedia>
@@ -44,7 +39,7 @@ private:
 
     QSet<int> pressedKeys;
 
-    bool chkButton = false;
+    int bckgr = 0;
 
     int attack = 9;
     QBasicTimer animation_timer_;

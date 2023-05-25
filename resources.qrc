@@ -73,5 +73,7 @@
 
         <file>resources/sounds/Hilda_berg.wav</file>
         <file>resources/sounds/Don't_Deal_With _The_Devil.wav</file>
+
+        <file>resources/settings.txt</file>
     </qresource>
 </RCC>

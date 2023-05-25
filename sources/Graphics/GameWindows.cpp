@@ -1,5 +1,7 @@
 #include "GameWindows.h"
 #include <QDebug>
+#include <fstream>
+#include <iostream>
 
 void GameWindows::widgetFinishGame(int n) {
     if (n != 0) {
@@ -70,6 +72,7 @@ void GameWindows::widgetFinishGame(int n) {
         });
 
         connect(exit, &QPushButton::clicked, widget, [&] {
+            emit Exit();
             qApp->exit();
         });
 
@@ -143,6 +146,7 @@ void GameWindows::widgetStartGame() {
     });
 
     connect(exit, &QPushButton::clicked, menu_widget, [&] {
+        emit Exit();
         qApp->exit();
     });
     showFullScreen();
@@ -350,7 +354,6 @@ void GameWindows::widgetSettings() {
     connect(back, &QPushButton::clicked, settingsWidget, [&] {
         settingsWidget->close();
     });
-    chkButton = chkButton;
     settingsWidget->resize(1920, 1080);
     settingsWidget->showFullScreen();
 }
@@ -420,6 +423,7 @@ void GameWindows::widgetPause() {
     });
 
     connect(exit, &QPushButton::clicked, widget, [&] {
+        emit Exit();
         qApp->exit();
     });
 
@@ -427,6 +431,10 @@ void GameWindows::widgetPause() {
     widget->setFixedSize(600, 800);
     this->resize(600, 800);
     this->move(660, 140);
+}
+
+bool GameWindows::getCheck() const {
+    return check;
 }
 
 GameWindows::GameWindows(QWidget *parent) :
@@ -437,5 +445,11 @@ GameWindows::GameWindows(QWidget *parent) :
     m_player->setPlaylist(m_playlist);
     m_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     m_playlist->addMedia(QUrl("qrc:/resources/sounds/Don't_Deal_With _The_Devil.wav"));
+
+    std::ifstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
+
+    file >> check;
+    file >> check;
+    file.close();
 }
 

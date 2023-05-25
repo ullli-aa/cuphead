@@ -1,7 +1,8 @@
 #include "MainWindow.h"
 #include <QGraphicsProxyWidget>
-#include <QDebug>
 #include <cmath>
+#include <fstream>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent)
         : QMainWindow(parent),
@@ -19,6 +20,10 @@ MainWindow::MainWindow(QWidget *parent)
     sceneBckgrnd = {new QPixmap(":resources/background.png"), new QPixmap(":resources/background2.png"),
                     new QPixmap(":resources/background3.png")};
 
+    std::ifstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
+    file >> bckgr;
+    file.close();
+
     setUpScene();
     setFocusPolicy(Qt::StrongFocus);
 
@@ -33,8 +38,8 @@ MainWindow::MainWindow(QWidget *parent)
 }
 
 void MainWindow::setUpScene() {
-    *sceneBckgrnd[0] = sceneBckgrnd[0]->scaled(1920, 1080);
-    scene_->setBackgroundBrush(*sceneBckgrnd[0]);
+    *sceneBckgrnd[bckgr] = sceneBckgrnd[bckgr]->scaled(1920, 1080);
+    scene_->setBackgroundBrush(*sceneBckgrnd[bckgr]);
 
     scene_->addItem(presenter->getModel().hero_);
     for (int i = 0; i < 10; ++i) {
@@ -111,11 +116,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
-struct {
-    QUrl *devil = new QUrl("qrc:/resources/sounds/Don't_Deal_With _The_Devil.wav");
-    QUrl *hilda = new QUrl("qrc:/resources/sounds/Hilda_berg.wav");
-} soundManager;
-
 void MainWindow::timerEvent(QTimerEvent *event) {
     if (event->timerId() == animation_timer_.timerId()) {
         presenter->Tick();
@@ -173,7 +173,8 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     }
 
     connect(menu, &GameWindows::Replay, [this]() {
-        if (chkButton) {
+        animation_timer_.stop();
+        if (menu->getCheck()) {
             m_player->stop();
         } else {
             m_player->play();
@@ -184,12 +185,12 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     });
 
     connect(menu, &GameWindows::Start, [this]() {
-        if (chkButton) {
+        animation_timer_.stop();
+        if (menu->getCheck()) {
             m_player->stop();
         } else {
             m_player->play();
         }
-        animation_timer_.stop();
         presenter->replayModel();
         animation_timer_.start(20, this);
         timerChange = 0;
@@ -198,24 +199,19 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     connect(menu, &GameWindows::First, this, [&] {
         *sceneBckgrnd[0] = sceneBckgrnd[0]->scaled(1920, 1080);
         scene_->setBackgroundBrush(*sceneBckgrnd[0]);
+        bckgr = 0;
     });
 
     connect(menu, &GameWindows::Second, this, [&] {
         *sceneBckgrnd[1] = sceneBckgrnd[1]->scaled(1920, 1080);
         scene_->setBackgroundBrush(*sceneBckgrnd[1]);
+        bckgr = 1;
     });
 
     connect(menu, &GameWindows::Third, this, [&] {
         *sceneBckgrnd[2] = sceneBckgrnd[2]->scaled(1920, 1080);
         scene_->setBackgroundBrush(*sceneBckgrnd[2]);
-    });
-
-    connect(menu, &GameWindows::Music, this, [&] {
-        if (!chkButton) {
-            chkButton = true;
-        } else {
-            chkButton = false;
-        }
+        bckgr = 2;
     });
 
     connect(menu, &GameWindows::Continue, [this]() {
@@ -226,12 +222,14 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         m_player->stop();
     });
 
+    connect(menu, &GameWindows::Exit, this, [&] {
+        std::ofstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
+        file << bckgr << ' ' << menu->getCheck();
+        file.close();
+    });
+
     if (presenter->getAnimationTime() == 84 * 3) {
         presenter->setAnimationTime(0);
-    }
-
-    if (chkButton) {
-        m_player->stop();
     }
 
     presenter->setAnimationTime(presenter->getAnimationTime() + 1);
@@ -244,29 +242,26 @@ void MainWindow::startGame() {
 
     menu->widgetStartGame();
     connect(menu, &GameWindows::Start, [this]() {
-        m_player->play();
+        if(!menu->getCheck()) {
+            m_player->play();
+        }
         animation_timer_.start(20, this);
     });
     connect(menu, &GameWindows::First, this, [&] {
         *sceneBckgrnd[0] = sceneBckgrnd[0]->scaled(1920, 1080);
         scene_->setBackgroundBrush(*sceneBckgrnd[0]);
+        bckgr = 0;
     });
 
     connect(menu, &GameWindows::Second, this, [&] {
         *sceneBckgrnd[1] = sceneBckgrnd[1]->scaled(1920, 1080);
         scene_->setBackgroundBrush(*sceneBckgrnd[1]);
+        bckgr = 1;
     });
 
     connect(menu, &GameWindows::Third, this, [&] {
         *sceneBckgrnd[2] = sceneBckgrnd[2]->scaled(1920, 1080);
         scene_->setBackgroundBrush(*sceneBckgrnd[2]);
-    });
-
-    connect(menu, &GameWindows::Music, this, [&] {
-        if (!chkButton) {
-            chkButton = true;
-        } else {
-            chkButton = false;
-        }
+        bckgr = 2;
     });
 }
