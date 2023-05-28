@@ -77,7 +77,7 @@
         <file>resources/sounds/click.wav</file>
         <file>resources/sounds/blimp_enemy_attack.wav</file>
         <file>resources/sounds/blimp_fire_HA.wav</file>
-
-        <file>resources/settings.txt</file>
+        <file>resources/sounds/game_over.wav</file>
+        <file>resources/sounds/win.wav</file>
     </qresource>
 </RCC>

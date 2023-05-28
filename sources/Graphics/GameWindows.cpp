@@ -15,11 +15,23 @@ void GameWindows::widgetFinishGame(int n) {
             auto *label = new QLabel("You've lost", widget);
             label->setFont(QFont("Courier New", 35));
             label->move(85, 85);
+            m_player_finish->setMedia(QUrl("qrc:/resources/sounds/game_over.wav"));
+            if (check) {
+                m_player_finish->stop();
+            } else {
+                m_player_finish->play();
+            }
         }
         if (n == 2) {
             auto *label = new QLabel("You WIN!!!!", widget);
             label->setFont(QFont("Courier New", 35));
             label->move(85, 85);
+            m_player_finish->setMedia(QUrl("qrc:/resources/sounds/win.wav"));
+            if (check) {
+                m_player_finish->stop();
+            } else {
+                m_player_finish->play();
+            }
         }
 
         auto r_shadowEffect = new QGraphicsDropShadowEffect(widget);
@@ -63,12 +75,14 @@ void GameWindows::widgetFinishGame(int n) {
 
         connect(replay, &QPushButton::clicked, widget, [&] {
             m_player_click->play();
+            m_player_finish->stop();
             close();
             emit Replay();
         });
 
         connect(menu, &QPushButton::clicked, widget, [&] {
             m_player_click->play();
+            m_player_finish->stop();
             close();
             widgetStartGame();
             emit Menu();
@@ -162,8 +176,6 @@ void GameWindows::widgetStartGame() {
 }
 
 void GameWindows::widgetGuide() {
-//    auto *widget = new QWidget();
-
     auto bckgrnd = new QPixmap(":resources/game_windows/menu/Guide/background.png");
     *bckgrnd = bckgrnd->scaled(1920, 1080);
     auto *label = new QLabel(guideWidget);
@@ -304,7 +316,7 @@ void GameWindows::widgetSettings() {
     QPixmap pixmap1(":resources/background.png");
     QIcon ButtonIcon1(pixmap1);
     firstB->setIcon(ButtonIcon1);
-    firstB->setIconSize({650, 700});
+    firstB->setIconSize({650, 750});
     firstB->resize(540, 400);
     firstB->move(120, 230);
 
@@ -312,7 +324,7 @@ void GameWindows::widgetSettings() {
     QPixmap pixmap2(":resources/background2.png");
     QIcon ButtonIcon2(pixmap2);
     secondB->setIcon(ButtonIcon2);
-    secondB->setIconSize({650, 700});
+    secondB->setIconSize({650, 750});
     secondB->resize(540, 400);
     secondB->move(690, 230);
 
@@ -459,6 +471,7 @@ GameWindows::GameWindows(QWidget *parent) :
         m_player(new QMediaPlayer(this)),
         m_playlist(new QMediaPlaylist(m_player)),
         m_player_click(new QMediaPlayer(this)),
+        m_player_finish(new QMediaPlayer(this)),
         guideWidget(new QWidget()),
         settingsWidget(new QWidget()) {
     m_player->setPlaylist(m_playlist);
@@ -467,7 +480,7 @@ GameWindows::GameWindows(QWidget *parent) :
 
     m_player_click->setMedia(QUrl("qrc:/resources/sounds/click.wav"));
 
-    std::ifstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
+    std::ifstream file(R"(..\game_spaceBattle\settings.txt)");
 
     file >> check;
     file >> check;

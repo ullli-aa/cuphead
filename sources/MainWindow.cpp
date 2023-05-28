@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     sceneBckgrnd = {new QPixmap(":resources/background.png"), new QPixmap(":resources/background2.png"),
                     new QPixmap(":resources/background3.png")};
 
-    std::ifstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
+    std::ifstream file(R"(..\game_spaceBattle\settings.txt)");
     file >> bckgr;
     file.close();
 
@@ -162,6 +162,7 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     heroHealth->setPlainText(QString::number(presenter->getModel().hero_->getHealth()));
 
     if (presenter->finishGame() != 0) {
+        m_player->stop();
         animation_timer_.stop();
         menu->widgetFinishGame(presenter->finishGame());
     }
@@ -218,7 +219,7 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     });
 
     connect(menu, &GameWindows::Exit, this, [&] {
-        std::ofstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
+        std::ofstream file(R"(..\game_spaceBattle\settings.txt)");
         file << bckgr << ' ' << menu->getCheck();
         file.close();
     });

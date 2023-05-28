@@ -17,6 +17,7 @@ private:
     bool check = false;
     QMediaPlayer * m_player;
     QMediaPlayer* m_player_click;
+    QMediaPlayer* m_player_finish;
     QMediaPlaylist * m_playlist;
 public:
     GameWindows(QWidget *parent);
