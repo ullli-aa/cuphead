@@ -316,7 +316,7 @@ void GameWindows::widgetSettings() {
     QPixmap pixmap1(":resources/background.png");
     QIcon ButtonIcon1(pixmap1);
     firstB->setIcon(ButtonIcon1);
-    firstB->setIconSize({650, 750});
+    firstB->setIconSize({710, 700});
     firstB->resize(540, 400);
     firstB->move(120, 230);
 
@@ -324,7 +324,7 @@ void GameWindows::widgetSettings() {
     QPixmap pixmap2(":resources/background2.png");
     QIcon ButtonIcon2(pixmap2);
     secondB->setIcon(ButtonIcon2);
-    secondB->setIconSize({650, 750});
+    secondB->setIconSize({710, 700});
     secondB->resize(540, 400);
     secondB->move(690, 230);
 
@@ -332,7 +332,7 @@ void GameWindows::widgetSettings() {
     QPixmap pixmap3(":resources/background3.png");
     QIcon ButtonIcon3(pixmap3);
     thirdB->setIcon(ButtonIcon3);
-    thirdB->setIconSize({650, 700});
+    thirdB->setIconSize({710, 700});
     thirdB->resize(540, 400);
     thirdB->move(1260, 230);
 

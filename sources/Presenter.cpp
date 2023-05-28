@@ -60,10 +60,14 @@ void Presenter::collidesHeroBullet() {
         if (model->heroBullet[i]->collidesWithItem(model->firstEnemyBullet)) {
             model->firstEnemyBullet->setCoordinates({2010, 100});
             model->firstEnemyBullet->setDirection({0, 0});
+            model->heroBullet[i]->setCoordinates({-10, -10});
+            model->heroBullet[i]->setDirection({0, 0});
         }
         if (model->heroBullet[i]->collidesWithItem(model->secondEnemyBullet)) {
             model->secondEnemyBullet->setCoordinates({2010, 100});
             model->secondEnemyBullet->setDirection({0, 0});
+            model->heroBullet[i]->setCoordinates({-10, -10});
+            model->heroBullet[i]->setDirection({0, 0});
         }
     }
 }
