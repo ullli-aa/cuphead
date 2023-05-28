@@ -7,15 +7,17 @@
 
 class Model {
 public:
+    Hero *hero_;
+    std::vector<Bullet *> heroBullet;
+    Boss *boss_;
+    Bullet *bossBullet;
+    std::vector<Enemies *> enemies_;
+    Bullet *firstEnemyBullet;
+    Bullet *secondEnemyBullet;
+
     Model();
-    Hero* hero_;
-    std::vector<Bullet*> heroBullet;
-    Boss* boss_;
-    Bullet* bossBullet;
-    std::vector<Enemies*> enemies_;
-    Bullet* firstEnemyBullet;
-    Bullet* secondEnemyBullet;
 
     void updateModel();
+
     void updateHeroBullet(int);
 };

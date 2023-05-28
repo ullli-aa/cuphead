@@ -5,16 +5,8 @@ Bullet::Bullet(QPointF begin, QPointF end) : MovingObject(1, {90 + 30, 350}), at
 
 Bullet::Bullet() : attackBegin_(), attackEnd_() {}
 
-QPointF Bullet::getAttackBegin() {
-    return attackBegin_;
-}
-
 void Bullet::setAttackBegin(QPointF begin) {
     attackBegin_ = begin;
-}
-
-QPointF Bullet::getAttackEnd() {
-    return attackEnd_;
 }
 
 void Bullet::setAttackEnd(QPointF end) {
@@ -37,17 +29,12 @@ double Bullet::getHeight() const {
     return height_;
 }
 
-int Bullet::getDamage() {
+int Bullet::getDamage() const {
     return damage_;
 }
 
 void Bullet::setDamage(int damage) {
     damage_ = damage;
-}
-
-QLineF Bullet::trajectory(QPointF begin, QPointF end) {
-    QLineF line(begin, end);
-    return line;
 }
 
 void Bullet::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {

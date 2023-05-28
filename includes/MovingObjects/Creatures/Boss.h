@@ -3,16 +3,16 @@
 #include "Creatures.h"
 #include <QPainterPath>
 
-class Boss : public Creatures{
+class Boss : public Creatures {
 private:
     int hp_ = 1000;
-    std::vector<QPixmap*> boss;
+    std::vector<QPixmap *> boss;
 public:
     Boss();
-    int getHp() const;
-    void setHp(int);
 
-    std::vector<QPixmap*> getBossPixmap();
+    int getHp() const;
+
+    void setHp(int);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 

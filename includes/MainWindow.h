@@ -4,11 +4,10 @@
 #include <QGraphicsScene>
 #include <QGraphicsView>
 #include <QTimerEvent>
-#include "Presenter.h"
-#include "Graphics/GameWindows.h"
-#include <QMouseEvent>
 #include <QBasicTimer>
 #include <QtMultimedia>
+#include "Graphics/GameWindows.h"
+#include "Presenter.h"
 
 class MainWindow : public QMainWindow {
 public:
@@ -25,19 +24,18 @@ public:
     void startGame();
 
     void connectsGameW();
+
 private:
     QGraphicsScene *scene_;
     QGraphicsView *view_;
 
-    std::vector<QPixmap*> sceneBckgrnd;
+    std::vector<QPixmap *> sceneBckgrnd;
 
-    QMediaPlayer * m_player;
-    QMediaPlaylist * m_playlist;
+    QMediaPlayer *m_player;
+    QMediaPlaylist *m_playlist;
 
     Presenter *presenter;
     GameWindows *menu;
-
-    QSet<int> pressedKeys;
 
     int bckgr = 0;
 

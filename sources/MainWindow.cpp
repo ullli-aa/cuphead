@@ -25,9 +25,9 @@ MainWindow::MainWindow(QWidget *parent)
     file.close();
 
     setUpScene();
+
     setFocusPolicy(Qt::StrongFocus);
 
-    view_->viewport()->installEventFilter(this);
     showFullScreen();
 
     m_player->setPlaylist(m_playlist);
@@ -173,7 +173,7 @@ void MainWindow::startGame() {
 
     menu->widgetStartGame();
     connect(menu, &GameWindows::Start, [this]() {
-        if(!menu->getCheck()) {
+        if (!menu->getCheck()) {
             m_player->play();
         }
         animation_timer_.start(20, this);

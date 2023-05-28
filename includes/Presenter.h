@@ -1,11 +1,9 @@
 #pragma once
 
 #include <QWidget>
-#include <QLabel>
-#include <QPushButton>
+#include <QMediaPlayer>
 #include "Model.h"
 #include "Animation.h"
-#include <QMediaPlayer>
 
 class Presenter : public QWidget {
 public:

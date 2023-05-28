@@ -36,10 +36,6 @@ void Boss::setHp(int hp) {
     hp_ = hp;
 }
 
-std::vector<QPixmap *> Boss::getBossPixmap() {
-    return boss;
-}
-
 void Boss::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
     painter->setPen({Qt::transparent, 3});
     painter->drawRect(boundingRect());

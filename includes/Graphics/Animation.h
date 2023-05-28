@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QGraphicsItem>
 #include "Boss.h"
 #include "Hero.h"
 #include "Enemies.h"
