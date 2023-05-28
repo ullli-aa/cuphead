@@ -13,8 +13,10 @@ class GameWindows : public QWidget {
 Q_OBJECT;
 private:
     QWidget* settingsWidget;
+    QWidget* guideWidget;
     bool check = false;
     QMediaPlayer * m_player;
+    QMediaPlayer* m_player_click;
     QMediaPlaylist * m_playlist;
 public:
     GameWindows(QWidget *parent);

@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include "Model.h"
 #include "Animation.h"
+#include <QMediaPlayer>
 
 class Presenter : public QWidget {
 public:
@@ -34,6 +35,8 @@ public:
 
     void bossMoving() const;
 
+    void bulletBossMoving();
+
     void bulletFirstEnemyMoving();
 
     void bulletSecondEnemyMoving();
@@ -48,5 +51,8 @@ protected:
     int attackTime = 0;
     int animationTime = 0;
     Animation* animation;
+    QMediaPlayer * m_player_hero_damage;
+    QMediaPlayer * m_player_enemy_attack;
+    QMediaPlayer * m_player_boss_attack;
 };
 

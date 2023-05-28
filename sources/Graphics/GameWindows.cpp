@@ -62,16 +62,20 @@ void GameWindows::widgetFinishGame(int n) {
         exit->move(145, 550);
 
         connect(replay, &QPushButton::clicked, widget, [&] {
+            m_player_click->play();
             close();
             emit Replay();
         });
 
         connect(menu, &QPushButton::clicked, widget, [&] {
+            m_player_click->play();
             close();
             widgetStartGame();
+            emit Menu();
         });
 
         connect(exit, &QPushButton::clicked, widget, [&] {
+            m_player_click->play();
             emit Exit();
             qApp->exit();
         });
@@ -132,21 +136,25 @@ void GameWindows::widgetStartGame() {
     exit->setStyleSheet("background-color: white;");
 
     connect(play, &QPushButton::clicked, menu_widget, [&] {
+        m_player_click->play();
         close();
         emit Start();
         m_player->stop();
     });
 
     connect(settings, &QPushButton::clicked, menu_widget, [&] {
+        m_player_click->play();
         GameWindows::widgetSettings();
     });
 
     connect(Guide, &QPushButton::clicked, menu_widget, [&] {
+        m_player_click->play();
         widgetGuide();
     });
 
     connect(exit, &QPushButton::clicked, menu_widget, [&] {
         emit Exit();
+        m_player_click->play();
         qApp->exit();
     });
     showFullScreen();
@@ -154,57 +162,57 @@ void GameWindows::widgetStartGame() {
 }
 
 void GameWindows::widgetGuide() {
-    auto *widget = new QWidget;
+//    auto *widget = new QWidget();
 
     auto bckgrnd = new QPixmap(":resources/game_windows/menu/Guide/background.png");
     *bckgrnd = bckgrnd->scaled(1920, 1080);
-    auto *label = new QLabel(widget);
+    auto *label = new QLabel(guideWidget);
     label->setPixmap(*bckgrnd);
 
     auto font = QFont("Courier New", 30);
     font.setWeight(QFont::DemiBold);
 
-    auto *actions = new QLabel("ACTIONS", widget);
+    auto *actions = new QLabel("ACTIONS", guideWidget);
     actions->setFont(font);
     actions->move(150, 150);
     actions->setStyleSheet("background-color: transparent");
 
-    auto *move_up = new QLabel("Move up", widget);
+    auto *move_up = new QLabel("Move up", guideWidget);
     move_up->setFont(font);
     move_up->move(150, 300);
     move_up->setStyleSheet("background-color: transparent");
 
-    auto *move_down = new QLabel("Move down", widget);
+    auto *move_down = new QLabel("Move down", guideWidget);
     move_down->setFont(font);
     move_down->move(150, 375);
     move_down->setStyleSheet("background-color: transparent");
 
-    auto *move_right = new QLabel("Move right", widget);
+    auto *move_right = new QLabel("Move right", guideWidget);
     move_right->setFont(font);
     move_right->move(150, 450);
     move_right->setStyleSheet("background-color: transparent");
 
-    auto *move_left = new QLabel("Move left", widget);
+    auto *move_left = new QLabel("Move left", guideWidget);
     move_left->setFont(font);
     move_left->move(150, 525);
     move_left->setStyleSheet("background-color: transparent");
 
-    auto *move_diagonal = new QLabel("Move diagonal", widget);
+    auto *move_diagonal = new QLabel("Move diagonal", guideWidget);
     move_diagonal->setFont(font);
     move_diagonal->move(150, 600);
     move_diagonal->setStyleSheet("background-color: transparent");
 
-    auto *speed = new QLabel("Speedup", widget);
+    auto *speed = new QLabel("Speedup", guideWidget);
     speed->setFont(font);
     speed->move(150, 675);
     speed->setStyleSheet("background-color: transparent");
 
-    auto *keyboard = new QLabel("KEYBOARD", widget);
+    auto *keyboard = new QLabel("KEYBOARD", guideWidget);
     keyboard->setFont(font);
     keyboard->move(700, 150);
     keyboard->setStyleSheet("background-color: transparent");
 
-    auto *up = new QPushButton("W", widget);
+    auto *up = new QPushButton("W", guideWidget);
     up->setFont(QFont("Courier New", 20));
     up->resize(500, 50);
     up->move(700, 300);
@@ -214,7 +222,7 @@ void GameWindows::widgetGuide() {
                        "}"
                       ));
 
-    auto *down = new QPushButton("S", widget);
+    auto *down = new QPushButton("S", guideWidget);
     down->setFont(QFont("Courier New", 20));
     down->resize(500, 50);
     down->move(700, 375);
@@ -224,7 +232,7 @@ void GameWindows::widgetGuide() {
                          "}"
                         ));
 
-    auto *right = new QPushButton("D", widget);
+    auto *right = new QPushButton("D", guideWidget);
     right->setFont(QFont("Courier New", 20));
     right->resize(500, 50);
     right->move(700, 450);
@@ -234,7 +242,7 @@ void GameWindows::widgetGuide() {
                           "}"
                          ));
 
-    auto *left = new QPushButton("A", widget);
+    auto *left = new QPushButton("A", guideWidget);
     left->setFont(QFont("Courier New", 20));
     left->resize(500, 50);
     left->move(700, 525);
@@ -244,7 +252,7 @@ void GameWindows::widgetGuide() {
                          "}"
                         ));
 
-    auto *diagonal = new QPushButton("A or D + W or S", widget);
+    auto *diagonal = new QPushButton("A or D + W or S", guideWidget);
     diagonal->setFont(QFont("Courier New", 20));
     diagonal->resize(500, 50);
     diagonal->move(700, 600);
@@ -254,7 +262,7 @@ void GameWindows::widgetGuide() {
                              "}"
                             ));
 
-    auto *speedup = new QPushButton("Shift", widget);
+    auto *speedup = new QPushButton("Shift", guideWidget);
     speedup->setFont(QFont("Courier New", 20));
     speedup->resize(500, 50);
     speedup->move(700, 675);
@@ -264,16 +272,18 @@ void GameWindows::widgetGuide() {
                             "}"
                            ));
 
-    auto *back = new QPushButton("<< back <<", widget);
+    auto *back = new QPushButton("<< back <<", guideWidget);
     back->setFont(QFont("Courier New", 20));
     back->resize(240, 50);
     back->move(170, 50);
     back->setStyleSheet("background-color: transparent");
 
-    connect(back, &QPushButton::clicked, [widget]() {
-        widget->deleteLater();
+    connect(back, &QPushButton::clicked, guideWidget, [&] {
+        m_player_click->play();
+        guideWidget->close();
     });
-    widget->showFullScreen();
+    guideWidget->resize(1920, 1080);
+    guideWidget->showFullScreen();
 }
 
 void GameWindows::widgetSettings() {
@@ -323,18 +333,22 @@ void GameWindows::widgetSettings() {
     chkButton->setChecked(check);
 
     connect(firstB, &QPushButton::clicked, this, [this] {
+        m_player_click->play();
         emit First();
     });
 
     connect(secondB, &QPushButton::clicked, settingsWidget, [&] {
+        m_player_click->play();
         emit Second();
     });
 
     connect(thirdB, &QPushButton::clicked, settingsWidget, [&] {
+        m_player_click->play();
         emit Third();
     });
 
     connect(chkButton, &QCheckBox::clicked, settingsWidget, [&] {
+        m_player_click->play();
         if (!check) {
             check = true;
             m_player->stop();
@@ -352,6 +366,7 @@ void GameWindows::widgetSettings() {
     back->setStyleSheet("background-color: transparent");
 
     connect(back, &QPushButton::clicked, settingsWidget, [&] {
+        m_player_click->play();
         settingsWidget->close();
     });
     settingsWidget->resize(1920, 1080);
@@ -412,17 +427,20 @@ void GameWindows::widgetPause() {
     exit->move(145, 550);
 
     connect(cont, &QPushButton::clicked, widget, [&] {
+        m_player_click->play();
         close();
         emit Continue();
     });
 
     connect(menu, &QPushButton::clicked, widget, [&] {
+        m_player_click->play();
         close();
         widgetStartGame();
         emit Menu();
     });
 
     connect(exit, &QPushButton::clicked, widget, [&] {
+        m_player_click->play();
         emit Exit();
         qApp->exit();
     });
@@ -439,12 +457,15 @@ bool GameWindows::getCheck() const {
 
 GameWindows::GameWindows(QWidget *parent) :
         m_player(new QMediaPlayer(this)),
-        m_playlist(new QMediaPlaylist(m_player)) {
-    settingsWidget = new QWidget();
-
+        m_playlist(new QMediaPlaylist(m_player)),
+        m_player_click(new QMediaPlayer(this)),
+        guideWidget(new QWidget()),
+        settingsWidget(new QWidget()) {
     m_player->setPlaylist(m_playlist);
     m_playlist->setPlaybackMode(QMediaPlaylist::Loop);
     m_playlist->addMedia(QUrl("qrc:/resources/sounds/Don't_Deal_With _The_Devil.wav"));
+
+    m_player_click->setMedia(QUrl("qrc:/resources/sounds/click.wav"));
 
     std::ifstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
 

@@ -73,6 +73,10 @@
 
         <file>resources/sounds/Hilda_berg.wav</file>
         <file>resources/sounds/Don't_Deal_With _The_Devil.wav</file>
+        <file>resources/sounds/hero_damage.wav</file>
+        <file>resources/sounds/click.wav</file>
+        <file>resources/sounds/blimp_enemy_attack.wav</file>
+        <file>resources/sounds/blimp_fire_HA.wav</file>
 
         <file>resources/settings.txt</file>
     </qresource>

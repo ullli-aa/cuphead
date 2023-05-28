@@ -142,12 +142,7 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     presenter->secondEnemyMoving();
     presenter->bulletFirstEnemyMoving();
     presenter->bulletSecondEnemyMoving();
-
-    if (timerChange % 10 < 5) {
-        presenter->getModel().bossBullet->setDirection({-8, -2});
-    } else {
-        presenter->getModel().bossBullet->setDirection({-8, 2});
-    }
+    presenter->bulletBossMoving();
 
     presenter->collidesHeroBullet();
     presenter->collidesBossBullet();
@@ -168,11 +163,11 @@ void MainWindow::timerEvent(QTimerEvent *event) {
 
     if (presenter->finishGame() != 0) {
         animation_timer_.stop();
-        menu = new GameWindows(this);
         menu->widgetFinishGame(presenter->finishGame());
     }
 
     connect(menu, &GameWindows::Replay, [this]() {
+        m_player->stop();
         animation_timer_.stop();
         if (menu->getCheck()) {
             m_player->stop();
@@ -263,5 +258,11 @@ void MainWindow::startGame() {
         *sceneBckgrnd[2] = sceneBckgrnd[2]->scaled(1920, 1080);
         scene_->setBackgroundBrush(*sceneBckgrnd[2]);
         bckgr = 2;
+    });
+
+    connect(menu, &GameWindows::Exit, this, [&] {
+        std::ofstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
+        file << bckgr << ' ' << menu->getCheck();
+        file.close();
     });
 }

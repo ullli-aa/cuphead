@@ -1,6 +1,6 @@
 # Cuphead
 
-Game Cuphead bu Yulyia Kunts.
+Game Cuphead by Yulia Kunts.
 
 This game was created and inspired by the game "Cuphead", namely the Hilda Berg level.
 
