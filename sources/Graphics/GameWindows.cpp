@@ -480,7 +480,7 @@ GameWindows::GameWindows(QWidget *parent) :
 
     m_player_click->setMedia(QUrl("qrc:/resources/sounds/click.wav"));
 
-    std::ifstream file(R"(..\game_spaceBattle\settings.txt)");
+    std::ifstream file("..\\settings.txt");
 
     file >> check;
     file >> check;

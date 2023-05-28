@@ -16,8 +16,6 @@ public:
 
     void setUpScene();
 
-    bool eventFilter(QObject *obj, QEvent *event) override;
-
     void keyPressEvent(QKeyEvent *event) override;
 
     void keyReleaseEvent(QKeyEvent *event) override;
@@ -25,6 +23,8 @@ public:
     void timerEvent(QTimerEvent *event) override;
 
     void startGame();
+
+    void connectsGameW();
 private:
     QGraphicsScene *scene_;
     QGraphicsView *view_;

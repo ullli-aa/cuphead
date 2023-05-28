@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent)
     sceneBckgrnd = {new QPixmap(":resources/background.png"), new QPixmap(":resources/background2.png"),
                     new QPixmap(":resources/background3.png")};
 
-    std::ifstream file(R"(..\game_spaceBattle\settings.txt)");
+    std::ifstream file("..\\settings.txt");
     file >> bckgr;
     file.close();
 
@@ -66,16 +66,6 @@ void MainWindow::setUpScene() {
     heroHealth->setDefaultTextColor(QColor(Qt::darkRed));
     heroHealth->setFont(font);
     heroHealth->setPos(25, 60);
-}
-
-bool MainWindow::eventFilter(QObject *obj, QEvent *event) {
-//    if (obj == view_->viewport()) {
-//        if (event->type() == QEvent::MouseMove) {
-//            auto *mouseEvent = dynamic_cast<QMouseEvent *>(event);
-//            presenter->getModel().hero_->setCoordinates(mouseEvent->pos());
-//        }
-//    }
-    return false;
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event) {
@@ -167,6 +157,32 @@ void MainWindow::timerEvent(QTimerEvent *event) {
         menu->widgetFinishGame(presenter->finishGame());
     }
 
+    connectsGameW();
+
+    if (presenter->getAnimationTime() == 84 * 3) {
+        presenter->setAnimationTime(0);
+    }
+
+    presenter->setAnimationTime(presenter->getAnimationTime() + 1);
+    presenter->getModel().updateModel();
+    presenter->updateAnimation();
+}
+
+void MainWindow::startGame() {
+    animation_timer_.stop();
+
+    menu->widgetStartGame();
+    connect(menu, &GameWindows::Start, [this]() {
+        if(!menu->getCheck()) {
+            m_player->play();
+        }
+        animation_timer_.start(20, this);
+    });
+
+    connectsGameW();
+}
+
+void MainWindow::connectsGameW() {
     connect(menu, &GameWindows::Replay, [this]() {
         m_player->stop();
         animation_timer_.stop();
@@ -219,50 +235,7 @@ void MainWindow::timerEvent(QTimerEvent *event) {
     });
 
     connect(menu, &GameWindows::Exit, this, [&] {
-        std::ofstream file(R"(..\game_spaceBattle\settings.txt)");
-        file << bckgr << ' ' << menu->getCheck();
-        file.close();
-    });
-
-    if (presenter->getAnimationTime() == 84 * 3) {
-        presenter->setAnimationTime(0);
-    }
-
-    presenter->setAnimationTime(presenter->getAnimationTime() + 1);
-    presenter->getModel().updateModel();
-    presenter->updateAnimation();
-}
-
-void MainWindow::startGame() {
-    animation_timer_.stop();
-
-    menu->widgetStartGame();
-    connect(menu, &GameWindows::Start, [this]() {
-        if(!menu->getCheck()) {
-            m_player->play();
-        }
-        animation_timer_.start(20, this);
-    });
-    connect(menu, &GameWindows::First, this, [&] {
-        *sceneBckgrnd[0] = sceneBckgrnd[0]->scaled(1920, 1080);
-        scene_->setBackgroundBrush(*sceneBckgrnd[0]);
-        bckgr = 0;
-    });
-
-    connect(menu, &GameWindows::Second, this, [&] {
-        *sceneBckgrnd[1] = sceneBckgrnd[1]->scaled(1920, 1080);
-        scene_->setBackgroundBrush(*sceneBckgrnd[1]);
-        bckgr = 1;
-    });
-
-    connect(menu, &GameWindows::Third, this, [&] {
-        *sceneBckgrnd[2] = sceneBckgrnd[2]->scaled(1920, 1080);
-        scene_->setBackgroundBrush(*sceneBckgrnd[2]);
-        bckgr = 2;
-    });
-
-    connect(menu, &GameWindows::Exit, this, [&] {
-        std::ofstream file(R"(D:\proga\game\game_spaceBattle\resources\settings.txt)");
+        std::ofstream file("..\\settings.txt");
         file << bckgr << ' ' << menu->getCheck();
         file.close();
     });
