@@ -482,7 +482,8 @@ GameWindows::GameWindows(QWidget *parent) :
 
     std::ifstream file("..\\settings.txt");
 
-    file >> check;
+    int n;
+    file >> n;
     file >> check;
     file.close();
 }
